@@ -14,7 +14,7 @@ ArtificialOrNaturalIntelligence ist ein Webbasiertes Ratespiel, bei dem es darum
 | Backend   | NestJS                                               |
 | Datenbank | Muss noch abgeklärt werden (PostgreSQL oder MongoDB) |
 
-## 
+
 
 ## Team und Rollen
 
