@@ -1,0 +1,13 @@
+<main style="padding: 2rem; font-family: system-ui, sans-serif;">
+  <h1>Hello Demo</h1>
+
+  <button (click)="loadHello()">Hello vom Server laden</button>
+
+  @if (isLoading()) {
+    <p>Lädt …</p>
+  } @else if (error()) {
+    <p style="color:#b00020">{{ error() }}</p>
+  } @else if (helloMessage()) {
+    <p>Antwort: {{ helloMessage() }}</p>
+  }
+</main>
