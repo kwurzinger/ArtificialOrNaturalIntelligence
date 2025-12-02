@@ -1,10 +1,10 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { HelloWorldResponseDto } from './hello-world-response.dto';
+import { HelloWorldResponse } from './hello-world-response.dto';
 
-@ApiTags('hello')
 @Controller()
+@ApiTags('Hello')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -12,9 +12,9 @@ export class AppController {
   @ApiOperation({ summary: 'Gibt eine Hello-World-Nachricht zurück' })
   @ApiOkResponse({
     description: 'Erfolgreiche Antwort',
-    type: HelloWorldResponseDto,
+    type: HelloWorldResponse,
   })
-  getHello(): HelloWorldResponseDto {
+  getHello(): HelloWorldResponse {
     return this.appService.getHello();
   }
 }

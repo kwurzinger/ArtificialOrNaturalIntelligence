@@ -7,10 +7,8 @@ async function bootstrap() {
 
   // Swagger-Konfiguration
   const config = new DocumentBuilder()
-    .setTitle('Hello World API')
-    .setDescription('Eine kleine Demo-API für /hello')
+    .setTitle('Artificial or Natural Intelligence API')
     .setVersion('1.0.0')
-    .addTag('hello') // optional Tag für deine Endpoints
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

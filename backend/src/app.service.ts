@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { HelloWorldResponseDto } from './hello-world-response.dto';
+import { HelloWorldResponse } from './hello-world-response.dto';
 
 @Injectable()
 export class AppService {
-  getHello(): HelloWorldResponseDto {
+  getHello(): HelloWorldResponse {
     return { message: 'Hello World!' };
   }
 }

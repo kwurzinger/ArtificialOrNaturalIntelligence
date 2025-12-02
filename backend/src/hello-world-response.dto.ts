@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class HelloWorldResponseDto {
+export class HelloWorldResponse {
   @ApiProperty({ example: 'Hello World!' })
   message: string;
 }
