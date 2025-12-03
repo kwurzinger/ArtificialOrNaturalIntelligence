@@ -16,7 +16,7 @@ export class ContentService {
   }
 
   async getContentById(id: number): Promise<Content> {
-    return this.contentRepository.findOne({select: ['content_link'], where: {content_id: id}});
+    return this.contentRepository.findOne({select: ['content_link', 'content_creator'], where: {content_id: id}});
   }
 
   addContent(createContentDto: CreateContentDto) {

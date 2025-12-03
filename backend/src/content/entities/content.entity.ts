@@ -10,4 +10,7 @@ export class Content {
 
     @Column('text', { nullable: false })
     content_link: string;
+
+    @Column('text', { nullable: false })
+    content_creator: string;
 }
