@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
-import { CreateContentDto } from './dto/create-content.dto';
 import { Content } from './entities/content.entity';
 
 @Injectable()
@@ -19,10 +18,10 @@ export class ContentService {
     return this.contentRepository.findOne({select: ['content_link', 'content_creator'], where: {content_id: id}});
   }
 
-  addContent(createContentDto: CreateContentDto) {
-    //Not implemented Yet
-    return 'This action adds a new content';
-  }
+  // addContent(createContentDto: CreateContentDto) {
+  //   //Not implemented Yet
+  //   return 'This action adds a new content';
+  // }
 
   removeContentById(id: number) {
     //Not implemented Yet
