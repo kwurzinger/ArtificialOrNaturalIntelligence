@@ -1,13 +1,177 @@
-<main style="padding: 2rem; font-family: system-ui, sans-serif;">
-  <h1>Hello Demo</h1>
+<section class="page">
+  <!-- Sidebar / overview -->
+  <aside class="sidebar">
+    <div class="logo-pill">
+      <span class="logo-dot"></span>
+      <span>AI Content API</span>
+    </div>
 
-  <button (click)="loadHello()">Hello vom Server laden</button>
+    <div>
+      <h1 class="title">Artificial / Natural Intelligence</h1>
+      <p class="subtitle">Interaktives Panel zum Ausprobieren deiner Backend-Endpunkte.</p>
+    </div>
 
-  @if (isLoading()) {
-    <p>Lädt …</p>
-  } @else if (error()) {
-    <p style="color:#b00020">{{ error() }}</p>
-  } @else if (helloMessage()) {
-    <p>Antwort: {{ helloMessage() }}</p>
-  }
-</main>
+    <div class="chip-row">
+      <span class="pill">NestJS + TypeORM</span>
+      <span class="pill">PostgreSQL</span>
+      <span class="pill">Angular Signals</span>
+    </div>
+
+    <div>
+      <p class="nav-label">Endpoints</p>
+      <div class="endpoint-list">
+        <div class="endpoint-item">
+          <div class="endpoint-main">
+            <span class="endpoint-name">GET /hello</span>
+            <span class="endpoint-desc">Hello-World Gruss aus dem Backend.</span>
+          </div>
+          <span class="method-pill">GET</span>
+        </div>
+        <div class="endpoint-item">
+          <div class="endpoint-main">
+            <span class="endpoint-name">GET /content/level/:level</span>
+            <span class="endpoint-desc">Liefert IDs zu einem Schwierigkeitslevel.</span>
+          </div>
+          <span class="method-pill">GET</span>
+        </div>
+        <div class="endpoint-item">
+          <div class="endpoint-main">
+            <span class="endpoint-name">GET /content/:id</span>
+            <span class="endpoint-desc">Details fuer eine ausgewaehlte Content-ID.</span>
+          </div>
+          <span class="method-pill">GET</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <span><span class="dot"></span> Level {{ level() }}</span>
+      <span><span class="dot"></span> IDs: {{ ids().length }}</span>
+    </div>
+  </aside>
+
+  <!-- Main interaction area -->
+  <section class="main">
+    <!-- Hello panel -->
+    <article class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Hello Endpoint</div>
+          <p class="muted">Ein schneller Health-Check deiner API.</p>
+        </div>
+        <span class="badge">GET /hello</span>
+      </div>
+
+      <div class="row spaced">
+        <button class="btn" (click)="loadHello()">Hello vom Server laden</button>
+        @if (isLoadingHello()) {
+          <div class="row">
+            <span class="spinner"></span>
+            <span class="muted"> Laedt...</span>
+          </div>
+        }
+      </div>
+
+      @if (helloError()) {
+        <p class="error">{{ helloError() }}</p>
+      } @else if (helloMessage()) {
+        <p class="success">Antwort: {{ helloMessage() }}</p>
+      } @else {
+        <p class="muted">Noch keine Antwort geladen.</p>
+      }
+    </article>
+
+    <!-- Content level + ids + details -->
+    <article class="panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Content Browser</div>
+          <p class="muted">Navigiere ueber Level und IDs zu deinen Inhalten.</p>
+        </div>
+        <span class="badge">GET /content/level/:level · /content/:id</span>
+      </div>
+
+      <!-- Level + id loading -->
+      <div class="row spaced">
+        <div class="row">
+          <label class="label">Level</label>
+          <div class="segmented">
+            <button class="seg" (click)="level.set(Math.max(1, level()-1))">-</button>
+            <input
+              class="input number"
+              type="number"
+              [value]="level()"
+              min="1"
+              (input)="level.set(($any($event.target).valueAsNumber)||1)"
+            />
+            <button class="seg" (click)="level.set(level()+1)">+</button>
+          </div>
+        </div>
+        <button class="btn secondary" (click)="loadIds()">IDs laden</button>
+      </div>
+
+      @if (isLoadingIds()) {
+        <div class="row">
+          <span class="spinner"></span>
+          <span class="muted"> Laedt...</span>
+        </div>
+      } @else if (idsError()) {
+        <p class="error">{{ idsError() }}</p>
+      } @else {
+        <div class="chips">
+          @if (ids().length) {
+            @for (id of ids(); track id) {
+              <button class="chip" (click)="selectId(id)" [class.active]="selectedId()===id">
+                #{{ id }}
+              </button>
+            }
+          } @else {
+            <span class="muted">Noch keine IDs geladen.</span>
+          }
+        </div>
+      }
+
+      <!-- Detail view -->
+      <div style="margin-top: 12px;">
+        @if (!selectedId()) {
+          <p class="muted">Waehle eine ID, um Details zu sehen.</p>
+        } @else if (isLoadingDetail()) {
+          <div class="row">
+            <span class="spinner"></span>
+            <span class="muted"> Laedt...</span>
+          </div>
+        } @else if (detailError()) {
+          <p class="error">{{ detailError() }}</p>
+        } @else if (detail()) {
+          <div class="kv">
+            <div>
+              <span class="key">ID</span>
+              <span class="val">{{ selectedId() }}</span>
+            </div>
+            <div>
+              <span class="key">Creator</span>
+              <span class="val">{{ detail()!.content_creator }}</span>
+            </div>
+            <div>
+              <span class="key">Link</span>
+              <span class="val wrap">{{ detail()!.content_link }}</span>
+            </div>
+          </div>
+          @if (detailLink()) {
+            <div class="row" style="margin-top: 10px;">
+              <a class="btn" [href]="detailLink()!" target="_blank" rel="noopener">
+                Im neuen Tab oeffnen
+              </a>
+            </div>
+          }
+        }
+      </div>
+    </article>
+
+    <div class="footer-bar">
+      <span class="muted">Proxy aktiv: /api -> http://localhost:3000</span>
+      <span class="pill-soft">Live gegen deine lokale DB</span>
+    </div>
+  </section>
+</section>
+
