@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global theme inspired by glassmorphism + gradients */
+
+:root {
+  --bg-1: #050816;
+  --bg-2: #020617;
+  --bg-3: #0b1120;
+  --accent-1: #6366f1;
+  --accent-2: #22d3ee;
+  --accent-3: #f97316;
+  --accent-soft: rgba(148, 163, 253, 0.15);
+  --text-main: #e5ecff;
+  --text-muted: #9ca3af;
+  --border-subtle: rgba(148, 163, 253, 0.3);
+  --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.9);
+  --radius-lg: 24px;
+  --radius-md: 18px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', Segoe UI, Roboto, sans-serif;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at 0% 0%, #1d2335 0, transparent 55%),
+    radial-gradient(circle at 100% 0%, #1b1b3a 0, transparent 55%),
+    radial-gradient(circle at 0% 100%, #0b1120 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, #020617 0, transparent 55%),
+    linear-gradient(145deg, var(--bg-1), var(--bg-2));
+  background-attachment: fixed;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: -40px;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+  z-index: -1;
+}
+
+body * {
+  -webkit-font-smoothing: antialiased;
+}
