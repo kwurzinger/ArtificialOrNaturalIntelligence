@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, NotFoundException } from '@nestjs/common';
 import { ContentService } from './content.service';
-import { CreateContentDto } from './dto/create-content.dto';
 import { Content } from './entities/content.entity';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ContentIdsResponse, ContentLinkResponse } from './dto/content.dto';
 
 @Controller('content')
 @ApiTags('Content')
@@ -11,6 +11,11 @@ export class ContentController {
 
   @Get("/level/:level")
   @ApiOperation({ summary: 'Liefert eine Liste aller ContentIds für ein bestimmtes Level' })
+  @ApiOkResponse({
+    description: 'Erfolgreiche Antwort',
+    type: ContentIdsResponse,
+    isArray: true
+  })
   async getContentIdsByLevel(@Param('level', ParseIntPipe) level: number): Promise<Content[]> {
     const contentIds = await this.contentService.getContentIdsByLevel(level);
 
@@ -23,6 +28,10 @@ export class ContentController {
 
   @Get(":id")
   @ApiOperation({ summary: 'Liefert den Link zum gewünschten Content anhand der ContentId' })
+  @ApiOkResponse({
+    description: 'Erfolgreiche Antwort',
+    type: ContentLinkResponse
+  })
   async getContentById(@Param('id', ParseIntPipe) id: number): Promise<Content> {
     const content = await this.contentService.getContentById(id);
 
