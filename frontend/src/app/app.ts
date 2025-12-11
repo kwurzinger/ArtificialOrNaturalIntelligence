@@ -13,6 +13,9 @@ type ContentDetail = { content_link: string; content_creator: string };
   imports: []
 })
 export class App {
+  // Expose Math helper so the template can call Math.max without TS errors
+  protected readonly Math = Math;
+
   // Hello
   helloMessage = signal<string>('');
   isLoadingHello = signal<boolean>(false);
