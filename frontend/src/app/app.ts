@@ -19,9 +19,9 @@ export class App {
     this.isLoading.set(true);
     this.error.set(null);
 
-    this.http.get('/api/hello', { responseType: 'text' }).subscribe({
-      next: (msg) => {
-        this.helloMessage.set(msg);
+    this.http.get<{ message: string }>('/api/hello').subscribe({
+      next: (data) => {
+        this.helloMessage.set(data.message);
         this.isLoading.set(false);
       },
       error: (err) => {
