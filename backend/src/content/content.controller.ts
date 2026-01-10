@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, NotFoundException, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ContentService } from './content.service';
 import { Content } from './entities/content.entity';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ContentIdsResponse, ContentLinkResponse } from './dto/content.dto';
+import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ContentCreateDto, ContentIdsResponse, ContentLinkResponse } from './dto/content.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('content')
 @ApiTags('Content')
@@ -42,15 +43,35 @@ export class ContentController {
     return content;
   }
 
-  //TODO: implement POST AND DELETE Endpoints
+  @Post()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        content_level: { type: 'integer' },
+        content_creator: { type: 'string' },
+        file: { type: 'string', format: 'binary' },
+      },
+      required: ['content_level', 'content_creator', 'file'],
+    },
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  async addContent(
+    @Body() createContentDto: ContentCreateDto,
+    @UploadedFile() file: Express.Multer.File
+  ): Promise<Content> {
+    return this.contentService.addContent(createContentDto, file);
+  }
 
-  // @Post()
-  // addContent(@Body() createContentDto: CreateContentDto): Promise<Response> {
-  //   return this.contentService.addContent(createContentDto);
-  // }
+  @Delete(":id")
+  async removeContentById(@Param('id', ParseIntPipe) id: number): Promise<{ success: true }> {
+    const result = await this.contentService.removeContentById(id);
 
-  // @Delete(":id")
-  // removeContentById(@Param() param: any): Promise<Response> {
-  //   return this.contentService.removeContentById(param.id);
-  // }
+    if ((result.affected ?? 0) === 0) {
+      throw new NotFoundException("Ein Inhalt mit dieser ID existiert nicht!");
+    }
+
+    return { success: true};
+  }
 }
