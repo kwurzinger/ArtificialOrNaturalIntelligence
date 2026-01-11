@@ -22,7 +22,7 @@ export class ContentLinkResponse {
   content_creator: string;
 }
 
-export class ContentCreateDto {
+export class ContentCreateDto {  
   @ApiProperty({
     example: 1,
     description: 'Level des Contents',
@@ -40,4 +40,10 @@ export class ContentCreateDto {
     description: 'Ersteller des Contents',
   })
   content_creator: string;
+
+  @ApiProperty({
+    example: 1,
+    description: 'Id des Contents',
+  })
+  content_id: number;
 }

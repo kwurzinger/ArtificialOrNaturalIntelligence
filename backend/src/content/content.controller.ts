@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, NotFoundException, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, NotFoundException, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
 import { ContentService } from './content.service';
 import { Content } from './entities/content.entity';
-import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ContentCreateDto, ContentIdsResponse, ContentLinkResponse } from './dto/content.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { SuccessResponseDto } from '../dto/success-response.dto';
+import { JwtAuthGuard } from 'src/admin/jwt-auth.guard';
 
 @Controller('content')
 @ApiTags('Content')
@@ -44,6 +46,13 @@ export class ContentController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Content hochladen' })
+  @ApiOkResponse({
+    description: 'Erfolgreiche Antwort',
+    type: ContentCreateDto
+  })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
@@ -65,6 +74,13 @@ export class ContentController {
   }
 
   @Delete(":id")
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Content anhand der ID löschen' })
+  @ApiOkResponse({
+    description: 'Erfolgreiche Antwort',
+    type: SuccessResponseDto
+  })
   async removeContentById(@Param('id', ParseIntPipe) id: number): Promise<{ success: true }> {
     const result = await this.contentService.removeContentById(id);
 

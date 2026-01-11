@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { Content } from './entities/content.entity';
 import { ContentCreateDto } from './dto/content.dto';
 import { APP_CONFIG, AppConfig } from '../app-config/app-config.constants';
@@ -29,11 +29,12 @@ export class ContentService {
     const port = this.appConfig.port
     const staticEndpoint = this.appConfig.staticEndpoint
 
+    dto.content_level = Number(dto.content_level);
     dto.content_link = `${baseURL}:${port}${staticEndpoint}/${file.filename}`;
     return this.contentRepository.save(dto);
   }
 
-  async removeContentById(id: number) {
+  async removeContentById(id: number): Promise<DeleteResult> {
     const content = await this.contentRepository.findOne({
       where: { content_id: id },
       select: ['content_id', 'content_link'],

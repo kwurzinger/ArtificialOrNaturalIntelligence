@@ -6,4 +6,13 @@ export type AppConfig = {
   staticDir: string;
   staticEndpoint: string;
   docsEndpoint: string;
+  pgHost: string;
+  pgPort: number;
+  pgUsername: string;
+  pgPassword: string;
+  pgDbname: string;
+  adminDefaultUsername: string;
+  adminDefaultPassword: string;
+  jwtSecret: string;
+  jwtExpiresIn: string;
 };
