@@ -23,13 +23,22 @@ export class ContentService {
   }
 
   async addContent(dto: ContentCreateDto, file: Express.Multer.File): Promise<Content> {
-    if (!file?.filename) throw new BadRequestException('Upload fehlgeschlagen (kein filename).');
+    if (!file?.filename) throw new BadRequestException("Upload fehlgeschlagen!");
 
     const baseURL = this.appConfig.baseURL
     const port = this.appConfig.port
     const staticEndpoint = this.appConfig.staticEndpoint
 
     dto.content_level = Number(dto.content_level);
+
+    if (dto.content_level < 1){
+      throw new BadRequestException("Ungültiges Level! (muss mind. 1 sein)");
+    }
+
+    if (dto.content_creator != "AI" && dto.content_creator != "Human") {
+      throw new BadRequestException("Ungültiger Creator! (Entweder AI oder Human)");
+    }
+
     dto.content_link = `${baseURL}:${port}${staticEndpoint}/${file.filename}`;
     return this.contentRepository.save(dto);
   }

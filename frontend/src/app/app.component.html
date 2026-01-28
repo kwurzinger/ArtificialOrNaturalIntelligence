@@ -1,0 +1,24 @@
+<div id="rootContent">
+  <div class="toolbar" role="banner">
+    <img id="logo" src="../assets/FHJ_Logo.png" width="300px" height="150px"/>
+    <h1 id="header">AI or Human</h1>
+  </div>
+
+  <div *ngIf="isQuestionView()" class="main">
+    <app-question></app-question>
+  </div>
+
+  <div *ngIf="isResultView()" class="main">
+    <app-result></app-result>
+  </div>
+
+  <div *ngIf="isFinishView()" class="main">
+    <div align="center">
+      <p id="finishQuizText">Glückwunsch!! Sie haben das Quiz beendet.</p>
+      <h1>Resultate vom Quiz</h1>
+      <div *ngFor="let level of levels" style="font-size: 1.4em;">Level {{level}}: {{getLevelResult(level)}}</div>
+      <p id="score">Score: {{getScore()}}</p>
+      <button id="btnRestart" mat-raised-button (click)="restartGame();">Neustart</button>
+    </div>
+  </div>
+</div>

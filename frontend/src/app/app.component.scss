@@ -1,0 +1,65 @@
+$base-color: rgb(61, 186, 0);
+
+#logo {
+  position: absolute;
+}
+
+.toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8em;
+  display: flex;
+  align-items: center;
+  background-color: $base-color;
+  font-weight: 400;
+  color: white;
+  margin-bottom: 30px;
+
+  #header{
+    margin-left: 40%;
+    font-size: 4em;
+  }
+}
+
+.main {
+  margin-top: 15%;
+}
+
+#finishQuizText {
+  font-size: 1.5em;
+  margin-top: 6em;
+}
+
+h1 {
+  font-size: 2.3em;
+}
+
+#score {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+#btnRestart {
+  background-color: $base-color;
+  background: linear-gradient(rgb(82, 173, 3), rgb(35, 165, 0 ), rgb(47, 108, 31));
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 2.5em;
+  border-radius: 20em;
+  margin: 20px 10px 20px;
+  width: 6em;
+  height: 1.5em;
+}
+
+mat-form-field {
+  width: 25%;
+}
+
+mat-option {
+  font-family: Roboto;
+}

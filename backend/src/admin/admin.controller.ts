@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { AdminService } from './admin.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -19,7 +19,7 @@ export class AdminController {
     return this.adminService.login(dto.username, dto.password);
   }
 
-  @Post('change-password')
+  @Put('change-password')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Admin Passwort ändern' })

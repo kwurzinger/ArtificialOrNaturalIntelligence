@@ -1,0 +1,10 @@
+<div>
+  <div class="bar">
+    <div class="seg" *ngFor="let level of levels" [style.background]="getBg(level)">{{ level }}</div>
+  </div>
+  <div align="center" id="content" [innerHTML]="contentHTML"></div>
+  <div align="center">
+    <button [disabled]="areButtonsDisabled()" id="btnAI" mat-raised-button (click)="onChoice('AI');">AI</button>
+    <button [disabled]="areButtonsDisabled()" id="btnHuman" mat-raised-button (click)="onChoice('Human');">Human</button>
+  </div>
+</div>

@@ -25,6 +25,13 @@ async function bootstrap() {
 
   app.useStaticAssets(staticPath, { prefix: staticEndpoint });
 
+  // CORS
+  app.enableCors({
+    origin: 'http://localhost:4200',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true, // nur wenn du Cookies/Auth brauchst
+  });
+
   // Swagger
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Artificial or Natural Intelligence API')

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { BadRequestException, Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
@@ -21,7 +21,18 @@ import { ContentService } from './content.service';
           destination: appConfig.staticDir,
           filename: (_req, file, cb) => cb(null, `${randomUUID()}${extname(file.originalname)}`),
         }),
-        limits: { fileSize: 10 * 1024 * 1024 },
+        fileFilter: (req, file, cb) => {
+          const allowedImageExtensions = /\.(png|jpe?g|gif|svg|webp|tiff|bmp)$/i.test(file.originalname);
+          const allowedAudioExtensions = /\.(mp3|aac|ogg|flac|alac|wav|aiff)$/i.test(file.originalname);
+          const allowedVideoExtensions = /\.(mp4|mkv|mov|avi|wmv|webm)$/i.test(file.originalname);
+          const allowedTextExtensions = /\.(txt|csv)$/i.test(file.originalname);
+
+          if (!allowedImageExtensions && !allowedAudioExtensions && !allowedVideoExtensions && !allowedTextExtensions) {
+            return cb(new BadRequestException('Nur Bilder, Videos, Audio oder Textdateien erlaubt!'), false);
+          }
+          cb(null, true);
+        },
+        limits: { fileSize: 20 * 1024 * 1024 * 1024 },
       }),
     }),
     TypeOrmModule.forFeature([Content]),

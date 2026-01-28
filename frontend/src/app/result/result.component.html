@@ -1,0 +1,5 @@
+<h1 align="center">Level {{getLevel()}} abgeschlossen! Hier sind deine Ergebnisse:</h1>
+<div class="result" *ngFor="let html of resultsHTML" [innerHTML]="html"></div>
+<div align="center">
+    <button id="btnContinue" mat-raised-button (click)="onContinue();">Nächstes Level</button>
+</div>
