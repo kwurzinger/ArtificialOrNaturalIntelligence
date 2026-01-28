@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,6 +16,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { QuestionComponent } from './question/question.component';
 import { ResultComponent } from './result/result.component';
+import { GameService } from './services/game.service';
+
+export function initGameConfig(gameService: GameService) {
+  return () => gameService.loadConfig();
+}
 
 @NgModule({
   declarations: [
@@ -36,6 +41,9 @@ import { ResultComponent } from './result/result.component';
     NgIf,
     NgFor,
     HttpClientModule,
+  ],
+  providers: [
+    { provide: APP_INITIALIZER, useFactory: initGameConfig, deps: [GameService], multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,16 +1,36 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+
+type AppConfig = {
+  lastLevel?: number;
+  maxQuestionsPerLevel?: number;
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-    private lastLevel: number = 5;
-    private maxQuestionsPerLevel: number = 2;
+    private lastLevel: number = 0;
+    private maxQuestionsPerLevel: number = 0;
     private currentLevel: number = 0;
     private askedQuestionsForLevel: string[] = [];
     private userAnswersForLevel: string[] = [];
     private correctAnswersForLevel: string[] = [];
     private levelResults: string[] = [];
+
+    constructor(private http: HttpClient) {}
+
+    loadConfig(): Promise<void> {
+        return firstValueFrom(this.http.get<AppConfig>('assets/app-config.json'))
+        .then(config => {
+            if (config.lastLevel != null) this.lastLevel = Number(config.lastLevel);
+            if (config.maxQuestionsPerLevel != null) this.maxQuestionsPerLevel = Number(config.maxQuestionsPerLevel);
+        })
+        .catch(() => {
+            throw new Error("Fatal Error! Die Konfiguration konnte nicht geladen werden!");
+        });
+    }
 
     getLastLevel(): number {
         return this.lastLevel;

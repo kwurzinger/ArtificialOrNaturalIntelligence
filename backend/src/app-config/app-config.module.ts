@@ -24,7 +24,8 @@ import { APP_CONFIG, AppConfig } from './app-config.constants';
         ADMIN_DEFAULT_USERNAME: Joi.string().required(),
         ADMIN_DEFAULT_PASSWORD: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
-        JWT_EXPIRES_IN: Joi.string().optional()
+        JWT_EXPIRES_IN: Joi.string().optional(),
+        ANGULAR_URL: Joi.string().optional()
       }),
     }),
   ],
@@ -51,11 +52,12 @@ import { APP_CONFIG, AppConfig } from './app-config.constants';
         const adminDefaultPassword = appConfig.get<string>('ADMIN_DEFAULT_PASSWORD');
         const jwtSecret = appConfig.get<string>('JWT_SECRET');
         const jwtExpiresIn = appConfig.get<string>('JWT_EXPIRES_IN') ?? '1h';
+        const angularURL = appConfig.get<string>('ANGULAR_URL') ?? 'http://localhost:4200';
 
         return {
           baseURL, port, staticDir, staticEndpoint, docsEndpoint, 
           pgHost, pgPort, pgUsername, pgPassword, pgDbname,
-          adminDefaultUsername, adminDefaultPassword, jwtSecret, jwtExpiresIn 
+          adminDefaultUsername, adminDefaultPassword, jwtSecret, jwtExpiresIn, angularURL
         };
       },
     },

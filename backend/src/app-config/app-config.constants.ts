@@ -15,4 +15,5 @@ export type AppConfig = {
   adminDefaultPassword: string;
   jwtSecret: string;
   jwtExpiresIn: string;
+  angularURL: string;
 };

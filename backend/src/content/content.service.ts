@@ -22,6 +22,16 @@ export class ContentService {
     return this.contentRepository.findOne({select: ['content_link', 'content_creator'], where: {content_id: id}});
   }
 
+  async removeFile(filename: string) {
+    if (filename) {
+      try {
+        await unlink(join(this.appConfig.staticDir, filename));
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }
+
   async addContent(dto: ContentCreateDto, file: Express.Multer.File): Promise<Content> {
     if (!file?.filename) throw new BadRequestException("Upload fehlgeschlagen!");
 
@@ -31,11 +41,15 @@ export class ContentService {
 
     dto.content_level = Number(dto.content_level);
 
+    // Falls die Anfrage aufgrund von ungültigen Parametern abgelehnt wird,
+    // muss die zuvor bereits abgelegte Datei wieder entfernt werden
     if (dto.content_level < 1){
+      this.removeFile(file.filename);
       throw new BadRequestException("Ungültiges Level! (muss mind. 1 sein)");
     }
 
     if (dto.content_creator != "AI" && dto.content_creator != "Human") {
+      this.removeFile(file.filename);
       throw new BadRequestException("Ungültiger Creator! (Entweder AI oder Human)");
     }
 
@@ -52,13 +66,8 @@ export class ContentService {
     if (!content) throw new NotFoundException('Ein Inhalt mit dieser ID existiert nicht!');
 
     const filename = content.content_link.substring(content.content_link.lastIndexOf('/'));
-    if (filename) {
-      try {
-        await unlink(join(this.appConfig.staticDir, filename));
-      } catch (error) {
-        console.error(error)
-      }
-    }
+   
+    await this.removeFile(filename);
 
     return this.contentRepository.delete({ content_id: id });
   }

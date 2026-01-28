@@ -16,6 +16,7 @@ async function bootstrap() {
   const port = appConfig.port;
   const staticPath = appConfig.staticDir;
   const staticEndpoint = appConfig.staticEndpoint;
+  const angularURL = appConfig.angularURL;
 
   if (!fs.existsSync(staticPath)) {
     throw new Error(`CONTENT_DIR existiert nicht: ${staticPath}`);
@@ -27,9 +28,9 @@ async function bootstrap() {
 
   // CORS
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: angularURL,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true, // nur wenn du Cookies/Auth brauchst
+    credentials: true,
   });
 
   // Swagger

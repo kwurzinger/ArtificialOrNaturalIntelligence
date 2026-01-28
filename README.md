@@ -38,18 +38,37 @@ ArtificialOrNaturalIntelligence ist ein Webbasiertes Ratespiel, bei dem es darum
 
 ## Lokales Setup
 
+Zunächst das Repository clonen und öffnen. Danach ausgehend vom Project Root wie folgt
+das Backend und das Frontend einrichten.
+
+### Backend starten
+
+In den Ordner wechseln und die .env Datei aus dem Template heraus erstellen
+```bash
+cd backend
+cp .env.example .env
+```
+
+Bevor das eigentliche Backend gestartet wird muss unbedingt vorher
+die PostgreSQL Datenbank bereit gestellt werden!
+Dazu je nachdem entweder PostgreSQL installieren oder die Anmeldeinformationen für eine bereits vorhandene Instanz bereithalten. Unbedingt eine leere Datenbank anlegen, da über TypeORM die Tabellen automatisch angelegt werden, falls sie noch nicht vorhanden sind.
+
+Damit das Backend auf die Datenbank zugreifen kann, müssen die entsprechenden Variablen in der .env Datei
+angepasst werden (PG_HOST, PG_PORT, etc.).
+
+```bash
+npm install
+npm run start
+```
+
+Das NestJS Backend startet per Default auf http://localhost:3000.
+Die URL und einige andere Einstellungen können in der .env Datei angepasst.
+
 ### Frontend starten
 ```bash
 cd frontend
 npm install
-npm start
+npm run start
 ```
-Der Angular Dev-Server läuft anschließend standardmäßig auf http://localhost:4200 und proxyt `http://localhost:3000/api`.
 
-### Backend starten
-```bash
-cd backend
-npm install
-npm run start:dev
-```
-Das NestJS Backend startet im Watch-Modus auf http://localhost:3000.
+Der Angular Dev-Server läuft anschließend standardmäßig auf http://localhost:4200.
