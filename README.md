@@ -8,31 +8,32 @@ ArtificialOrNaturalIntelligence ist ein Webbasiertes Ratespiel, bei dem es darum
 
 ## Tech Stack
 
-| Bereich   | Technologie                                          |
-| --------- | ---------------------------------------------------- |
-| Frontend  | Angular                                              |
-| Backend   | NestJS                                               |
-| Datenbank | Muss noch abgeklärt werden (PostgreSQL oder MongoDB) |
+| Bereich   | Technologie |
+| --------- | ----------- |
+| Frontend  | Angular     |
+| Backend   | NestJS      |
+| Datenbank | PostgreSQL  |
 
 
 
 ## Team und Rollen
 
-| Teammitglied    | Aufgaben                                  |
-| --------------- | ----------------------------------------- |
-| Resch Cindy     | Design / UI + Frontendentwicklung         |
-| Wurzinger Kevin | Backendentwicklung (REST API + Datenbank) |
+| Teammitglied              | Aufgaben                                  |
+| ------------------------- | ----------------------------------------- |
+| Resch Cindy (ausgefallen) | Design / UI + Frontendentwicklung         |
+| Wurzinger Kevin           | Frontendentwicklung                       |
+| Wurzinger Kevin           | Backendentwicklung (REST API + Datenbank) |
 
 
 ---
 
 ## Todos
 
-1. Wireframes und UI-Design entwerfen  
-2. Datenbank designen und API Endpunkte planen
-3. Musthave Features implementieren
-4. Nice-to-have Features implementieren
-5. Projektabschluss + Präsentation
+1. Wireframes und UI-Design entwerfen  (aus Zeitgründen ausgelassen)
+2. Datenbank designen und API Endpunkte planen (erledigt)
+3. Musthave Features implementieren (erledigt)
+4. Nice-to-have Features implementieren (teilweise erledigt)
+5. Projektabschluss + Präsentation (erledigt)
 
 ---
 
