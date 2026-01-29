@@ -72,3 +72,5 @@ npm run start
 ```
 
 Der Angular Dev-Server läuft anschließend standardmäßig auf http://localhost:4200.
+Die Anzahl der Levels und die Anzahl der Fragen pro Level können jederzeit in der Datei
+"app-config.json" nach Wunsch umgestellt werden.
