@@ -2,7 +2,7 @@
 
 ## Projektbeschreibung
 
-ArtificialOrNaturalIntelligence ist ein Webbasiertes Ratespiel, bei dem es darum geht, zu erraten, ob ein digitaler Inhalt KI generiert ist oder von einem Menschen erstellt wurde. Dabei kann es sich beispielsweise um einen Text, einen Quellcode oder um ein Bild handeln. Wenn der Benutzer richtig rät, bekommt er eine unique ID, um an einer Lotterie teilzunehmen. Die Webseite soll Teil des Event Trailers sein (@FHJoanneum)
+ArtificialOrNaturalIntelligence ist ein Webbasiertes Ratespiel, bei dem es darum geht, zu erraten, ob ein digitaler Inhalt KI generiert ist oder von einem Menschen erstellt wurde. Dabei kann es sich beispielsweise um einen Text, ein Bild, ein Video oder eine Audiodatei handeln. Am Ende bekommt der Benutzer seine Resultate als Übersicht angezeigt. 
 
 ---
 
