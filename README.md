@@ -16,24 +16,18 @@ ArtificialOrNaturalIntelligence ist ein Webbasiertes Ratespiel, bei dem es darum
 
 
 
-## Team und Rollen
+## Team und Rollen (muss noch aktualisiert werden)
 
 | Teammitglied              | Aufgaben                                  |
 | ------------------------- | ----------------------------------------- |
-| Resch Cindy (ausgefallen) | Design / UI + Frontendentwicklung         |
-| Wurzinger Kevin           | Frontendentwicklung                       |
-| Wurzinger Kevin           | Backendentwicklung (REST API + Datenbank) |
+
 
 
 ---
 
-## Todos
+## Todos (muss noch aktualisiert werden)
 
-1. Wireframes und UI-Design entwerfen  (aus Zeitgründen ausgelassen)
-2. Datenbank designen und API Endpunkte planen (erledigt)
-3. Musthave Features implementieren (erledigt)
-4. Nice-to-have Features implementieren (teilweise erledigt)
-5. Projektabschluss + Präsentation (erledigt)
+
 
 ---
 
