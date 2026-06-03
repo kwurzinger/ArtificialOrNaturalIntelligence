@@ -60,6 +60,7 @@ export class ContentController {
       properties: {
         content_level: { type: 'integer' },
         content_creator: { type: 'string' },
+        content_advisory_text: { type: 'string' },
         file: { type: 'string', format: 'binary' },
       },
       required: ['content_level', 'content_creator', 'file'],

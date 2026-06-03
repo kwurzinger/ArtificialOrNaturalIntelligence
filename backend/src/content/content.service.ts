@@ -19,7 +19,7 @@ export class ContentService {
   }
 
   async getContentById(id: number): Promise<Content> {
-    return this.contentRepository.findOne({select: ['content_link', 'content_creator'], where: {content_id: id}});
+    return this.contentRepository.findOne({select: ['content_link', 'content_creator', 'content_advisory_text'], where: {content_id: id}});
   }
 
   async removeFile(filename: string) {

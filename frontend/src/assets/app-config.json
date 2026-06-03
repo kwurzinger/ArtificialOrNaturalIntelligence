@@ -1,4 +1,5 @@
 {
   "lastLevel": 5,
-  "maxQuestionsPerLevel": 2
+  "maxQuestionsPerLevel": 2,
+  "hintsEnabled": true
 }

@@ -20,6 +20,8 @@ export class QuestionComponent implements OnInit {
     private contentIdsForLevel: number[];
 
     contentHTML: SafeHtml = [];
+    hintsEnabled: boolean = this.gameService.getHintsEnabled();
+    hintText: string = "";
 
     get levels(): number[] {
         return Array.from({ length: this.gameService.getLastLevel() }, (_, i) => i + 1);
@@ -70,6 +72,7 @@ export class QuestionComponent implements OnInit {
                 this.gameService.addCorrectAnswerForLevel(content.content_creator);
                 const html = this.contentService.renderContentFromLink(content.content_link);
                 this.contentHTML = this.sanitizer.bypassSecurityTrustHtml(html);
+                this.hintText = content.content_advisory_text;
                 this.gameService.addAskedQuestionForLevel(content.content_link);
                 this.contentIdsForLevel.splice(randomIndex, 1)
                 this.numberOfDrawnQuestionsInLevel++;

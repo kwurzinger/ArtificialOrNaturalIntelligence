@@ -13,4 +13,7 @@ export class Content {
 
     @Column('text', { nullable: false })
     content_creator: string;
+
+    @Column('text', { nullable: true })
+    content_advisory_text: string;
 }

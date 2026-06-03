@@ -42,6 +42,12 @@ export class ContentCreateDto {
   content_creator: string;
 
   @ApiProperty({
+    example: 'Achte bei diesem Content auf die folgenden Dinge: ...',
+    description: 'Unterscheidungstipps zum Content (optional)',
+  })
+  content_advisory_text: string;
+
+  @ApiProperty({
     example: 1,
     description: 'Id des Contents',
   })
