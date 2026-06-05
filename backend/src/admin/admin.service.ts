@@ -3,12 +3,17 @@ import {
   OnModuleInit,
   NotFoundException,
   UnauthorizedException,
+  ConflictException,
+  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Admin } from './entities/admin.entity';
+
+const ROOT_ADMIN_USERNAME = 'admin';
+const BCRYPT_ROUNDS = 12;
 
 @Injectable()
 export class AdminService implements OnModuleInit {
@@ -21,9 +26,9 @@ export class AdminService implements OnModuleInit {
     const count = await this.adminRepo.count();
     if (count > 0) return;
 
-    const username = process.env.ADMIN_DEFAULT_USERNAME ?? 'admin';
+    const username = process.env.ADMIN_DEFAULT_USERNAME ?? ROOT_ADMIN_USERNAME;
     const password = process.env.ADMIN_DEFAULT_PASSWORD ?? 'password';
-    const hash = await bcrypt.hash(password, 12);
+    const hash = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
     await this.adminRepo.save({ username, password_hash: hash });
   }
@@ -43,19 +48,69 @@ export class AdminService implements OnModuleInit {
     return { access_token };
   }
 
+  async getAdmins(): Promise<{ admin_id: number; username: string }[]> {
+    const admins = await this.adminRepo.find({
+      select: {
+        admin_id: true,
+        username: true,
+      },
+      order: {
+        username: 'ASC',
+      },
+    });
+
+    return admins.map((admin) => ({
+      admin_id: admin.admin_id,
+      username: admin.username,
+    }));
+  }
+
+  async createAdmin(username: string, password: string): Promise<{ admin_id: number; username: string }> {
+    const normalizedUsername = username?.trim();
+    if (!normalizedUsername) throw new BadRequestException('Username darf nicht leer sein');
+    if (!password) throw new BadRequestException('Passwort darf nicht leer sein');
+
+    const existing = await this.adminRepo.findOne({ where: { username: normalizedUsername } });
+    if (existing) throw new ConflictException('Admin-User existiert bereits');
+
+    const password_hash = await bcrypt.hash(password, BCRYPT_ROUNDS);
+    const admin = await this.adminRepo.save({ username: normalizedUsername, password_hash });
+
+    return { admin_id: admin.admin_id, username: admin.username };
+  }
+
+  async deleteAdmin(username: string): Promise<{ success: true }> {
+    const normalizedUsername = username?.trim();
+    if (!normalizedUsername) throw new BadRequestException('Username darf nicht leer sein');
+
+    if (normalizedUsername === ROOT_ADMIN_USERNAME) {
+      throw new BadRequestException('Der Rootadmin "admin" darf nicht gelöscht werden');
+    }
+
+    const admin = await this.adminRepo.findOne({ where: { username: normalizedUsername } });
+    if (!admin) throw new NotFoundException('Admin nicht gefunden');
+
+    await this.adminRepo.remove(admin);
+    return { success: true };
+  }
+
   async changePassword(
-    adminId: number,
+    username: string,
     currentPassword: string,
     newPassword: string,
   ): Promise<{ success: true }> {
-    const admin = await this.adminRepo.findOne({ where: { admin_id: adminId } });
-    if (!admin) throw new NotFoundException('Admin nicht gefunden');
+    const normalizedUsername = username?.trim();
+    if (!normalizedUsername) throw new BadRequestException('Username darf nicht leer sein');
+    if (!newPassword) throw new BadRequestException('Neues Passwort darf nicht leer sein');
 
-    const ok = await bcrypt.compare(currentPassword, admin.password_hash);
-    if (!ok) throw new UnauthorizedException('Aktuelles Passwort ist falsch');
+    const targetAdmin = await this.adminRepo.findOne({ where: { username: normalizedUsername } });
+    if (!targetAdmin) throw new NotFoundException('Admin nicht gefunden');
 
-    admin.password_hash = await bcrypt.hash(newPassword, 12);
-    await this.adminRepo.save(admin);
+    const currentPasswordOk = await bcrypt.compare(currentPassword, targetAdmin.password_hash);
+    if (!currentPasswordOk) throw new UnauthorizedException('Aktuelles Passwort ist falsch');
+
+    targetAdmin.password_hash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
+    await this.adminRepo.save(targetAdmin);
 
     return { success: true };
   }
