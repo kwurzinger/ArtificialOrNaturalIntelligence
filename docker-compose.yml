@@ -1,0 +1,39 @@
+services:
+  aoni-postgres:
+    image: postgres:alpine
+    shm_size: 128mb
+    networks: ["aoni-network"]
+    ports:
+      - "5432"
+    environment:
+      - POSTGRES_USER=${PG_USERNAME}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DBNAME}
+    restart: unless-stopped
+
+  aoni-backend:
+    build: ./backend
+    container_name: aoni-backend
+    image: node-aoni-backend
+    networks: ["aoni-network"]
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on: ["aoni-postgres"]
+    restart: unless-stopped
+
+  aoni-frontend:
+    build: ./frontend
+    container_name: aoni-frontend
+    image: node-aoni-frontend
+    networks: ["aoni-network"]
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=development
+    depends_on: ["aoni-backend"]
+    restart: unless-stopped
+
+networks:
+  aoni-network:
