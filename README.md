@@ -81,10 +81,10 @@ cd backend
 cp .env.example .env
 ```
 
-Dabei ist der Wert von `PG_HOST` von `localhost` nach `aoni-postgres` abzuändern.
+Dabei ist der Wert von `PG_HOST` von `localhost` nach `artificialornaturalintelligence-postgres` abzuändern.
 
 ``` bash
-sed 's/PG_HOST=localhost/PG_HOST=aoni-postgres/g' backend/.env.example 
+sed 's/PG_HOST=localhost/PG_HOST=artificialornaturalintelligence-postgres/g' backend/.env.example 
 ```
 
 Zuletzt in die Wurzel des Repositorys zurückwechseln und die Docker-Container erstellen und ausführen.
