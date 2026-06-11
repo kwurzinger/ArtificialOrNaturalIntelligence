@@ -1,0 +1,39 @@
+services:
+  artificialornaturalintelligence-postgres:
+    image: postgres:alpine
+    shm_size: 128mb
+    networks: ["artificialornaturalintelligence-network"]
+    ports:
+      - "5432"
+    environment:
+      - POSTGRES_USER=${PG_USERNAME}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DBNAME}
+    restart: unless-stopped
+
+  artificialornaturalintelligence-backend:
+    build: ./backend
+    container_name: artificialornaturalintelligence-backend
+    image: node-artificialornaturalintelligence-backend
+    networks: ["artificialornaturalintelligence-network"]
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on: ["artificialornaturalintelligence-postgres"]
+    restart: unless-stopped
+
+  artificialornaturalintelligence-frontend:
+    build: ./frontend
+    container_name: artificialornaturalintelligence-frontend
+    image: node-artificialornaturalintelligence-frontend
+    networks: ["artificialornaturalintelligence-network"]
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=development
+    depends_on: ["artificialornaturalintelligence-backend"]
+    restart: unless-stopped
+
+networks:
+  artificialornaturalintelligence-network:
