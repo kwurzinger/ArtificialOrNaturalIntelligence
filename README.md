@@ -14,20 +14,17 @@ ArtificialOrNaturalIntelligence ist ein Webbasiertes Ratespiel, bei dem es darum
 | Backend   | NestJS      |
 | Datenbank | PostgreSQL  |
 
+## Team und Rollen
 
-
-## Team und Rollen (muss noch aktualisiert werden)
-
-| Teammitglied              | Aufgaben                                  |
-| ------------------------- | ----------------------------------------- |
-
-
+| Teammitglied              | Aufgaben                                               |
+| ------------------------- | ------------------------------------------------------ |
+| Kevin Wurzinger           | Github Verwaltung, Projektleitung, Backend Entwicklung |
+| Michael Walch             | Build & Release Engineer                               |
+| Zsolt Pataky              | Frontend Entwicklung                                   |
 
 ---
 
-## Todos (muss noch aktualisiert werden)
-
-
+## Todos sind im Github Projekt ersichtlich
 
 ---
 
