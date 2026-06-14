@@ -1,0 +1,44 @@
+name: Build and push docker images
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  docker-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: |
+          IMAGE_TAG="ghcr.io/${{ github.repository }}:${{ github.sha }}"
+          
+          docker build -t "$IMAGE_TAG" ./backend
+          docker push "$IMAGE_TAG"
+
+  docker-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: |
+          IMAGE_TAG="ghcr.io/${{ github.repository }}:${{ github.sha }}"
+          
+          docker build -t "$IMAGE_TAG" ./frontend
+          docker push "$IMAGE_TAG"
