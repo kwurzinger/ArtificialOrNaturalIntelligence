@@ -20,9 +20,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: |
-          IMAGE_TAG="ghcr.io/${{ github.repository }}:${{ github.sha }}"
-          
+      - name: Build and push backend image
+        run: |
+          REPOSITORY_LOWER="${GITHUB_REPOSITORY,,}"
+          IMAGE_TAG="ghcr.io/${REPOSITORY_LOWER}-backend:${GITHUB_SHA}"
+
           docker build -t "$IMAGE_TAG" ./backend
           docker push "$IMAGE_TAG"
 
@@ -37,8 +39,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: |
-          IMAGE_TAG="ghcr.io/${{ github.repository }}:${{ github.sha }}"
-          
+      - name: Build and push frontend image
+        run: |
+          REPOSITORY_LOWER="${GITHUB_REPOSITORY,,}"
+          IMAGE_TAG="ghcr.io/${REPOSITORY_LOWER}-frontend:${GITHUB_SHA}"
+
           docker build -t "$IMAGE_TAG" ./frontend
           docker push "$IMAGE_TAG"
