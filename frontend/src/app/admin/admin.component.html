@@ -1,0 +1,129 @@
+<div class="admin-wrapper">
+  <h1>Adminbereich</h1>
+
+  <div class="admin-actions-top">
+    <button id="btnBack" type="button" mat-raised-button (click)="backToGame();">Zurück zum Spiel</button>
+    <button *ngIf="isLoggedIn()" id="btnLogout" type="button" mat-raised-button (click)="logout();">Logout</button>
+  </div>
+
+  <p class="status success" *ngIf="message">{{ message }}</p>
+  <p class="status error" *ngIf="error">{{ error }}</p>
+  <p class="status" *ngIf="loading">Lade...</p>
+
+  <section *ngIf="!isLoggedIn()" class="admin-card login-card">
+    <h2>Login</h2>
+
+    <label class="form-field">
+      <span>Username</span>
+      <input [(ngModel)]="username" autocomplete="username" autofocus>
+    </label>
+
+    <label class="form-field">
+      <span>Passwort</span>
+      <input type="password" [(ngModel)]="password" autocomplete="current-password" (keyup.enter)="login();">
+    </label>
+
+    <div class="button-row">
+      <button id="btnLogin" type="button" mat-raised-button [disabled]="loading" (click)="login();">Login</button>
+    </div>
+  </section>
+
+  <div *ngIf="isLoggedIn()" class="admin-grid">
+    <section class="admin-card content-upload-card">
+      <h2>Content hochladen</h2>
+
+      <div class="form-row">
+        <label class="form-field">
+          <span>Level</span>
+          <select [(ngModel)]="selectedLevel">
+            <option *ngFor="let level of levels" [ngValue]="level">Level {{ level }}</option>
+          </select>
+        </label>
+
+        <label class="form-field">
+          <span>Creator</span>
+          <select [(ngModel)]="selectedCreator">
+            <option *ngFor="let creator of creators" [ngValue]="creator">{{ creator }}</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="form-field">
+        <span>Hinweistext (optional)</span>
+        <textarea rows="3" [(ngModel)]="advisoryText"></textarea>
+      </label>
+
+      <label class="file-field">
+        <span>Datei</span>
+        <input id="contentFile" type="file" (change)="onFileSelected($event)">
+      </label>
+
+      <div class="button-row">
+        <button id="btnUpload" type="button" mat-raised-button [disabled]="loading" (click)="uploadContent();">Content speichern</button>
+      </div>
+    </section>
+
+    <section class="admin-card">
+      <h2>Admin-User anlegen</h2>
+
+      <label class="form-field">
+        <span>Username</span>
+        <input [(ngModel)]="newAdminUsername">
+      </label>
+
+      <label class="form-field">
+        <span>Passwort</span>
+        <input type="password" [(ngModel)]="newAdminPassword">
+      </label>
+
+      <div class="button-row">
+        <button id="btnCreateAdmin" type="button" mat-raised-button [disabled]="loading" (click)="createAdmin();">Admin anlegen</button>
+      </div>
+    </section>
+
+    <section class="admin-card">
+      <h2>Passwort ändern</h2>
+
+      <p class="own-password-note">Eingeloggt als: <strong>{{ currentUsername }}</strong></p>
+
+      <label class="form-field">
+        <span>Aktuelles Passwort</span>
+        <input type="password" [(ngModel)]="currentPassword">
+      </label>
+
+      <label class="form-field">
+        <span>Neues Passwort</span>
+        <input type="password" [(ngModel)]="newPassword">
+      </label>
+
+      <div class="button-row">
+        <button id="btnChangePassword" type="button" mat-raised-button [disabled]="loading" (click)="changePassword();">Passwort speichern</button>
+      </div>
+    </section>
+
+    <section class="admin-card">
+      <h2>Admin-User</h2>
+      <p *ngIf="admins.length === 0" class="empty-text">Keine Admin-User vorhanden.</p>
+
+      <div class="admin-list" *ngFor="let admin of admins">
+        <span>{{ admin.username }}</span>
+        <button type="button" mat-raised-button class="small-button danger" [disabled]="isCurrentAdmin(admin.username) || loading" (click)="deleteAdmin(admin.username);">Löschen</button>
+      </div>
+    </section>
+  </div>
+
+  <section *ngIf="isLoggedIn()" class="admin-card content-list-card">
+    <h2>Bestehender Content</h2>
+    <p *ngIf="contentItems.length === 0" class="empty-text">Noch keine Inhalte vorhanden.</p>
+
+    <div class="content-item" *ngFor="let item of contentItems">
+      <div class="content-preview" [innerHTML]="renderPreview(item.content_link)"></div>
+      <div class="content-info">
+        <h3>Content {{ item.content_id }} | Level {{ item.content_level }} | {{ item.content_creator }}</h3>
+        <p *ngIf="item.content_advisory_text">Hinweis: {{ item.content_advisory_text }}</p>
+        <p class="link-text">{{ item.content_link }}</p>
+        <button type="button" mat-raised-button class="small-button danger" [disabled]="loading" (click)="deleteContent(item.content_id);">Content löschen</button>
+      </div>
+    </div>
+  </section>
+</div>

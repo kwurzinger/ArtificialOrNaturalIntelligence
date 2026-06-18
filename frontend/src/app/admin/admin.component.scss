@@ -1,0 +1,250 @@
+$base-color: rgb(61, 186, 0);
+$text-color: #111;
+$border-color: rgba(61, 186, 0, 0.9);
+
+.admin-wrapper {
+  padding: 1.5em 0 4em;
+  color: $text-color;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.8em;
+  line-height: 1.1;
+  margin: 0 0 0.8em;
+}
+
+h2 {
+  color: $text-color;
+  font-size: 1.8em;
+  line-height: 1.15;
+  margin: 0 0 0.9em;
+}
+
+h3 {
+  color: $text-color;
+  font-size: 1.1em;
+  line-height: 1.25;
+  margin: 0 0 0.4em;
+}
+
+.admin-actions-top,
+.button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+.admin-actions-top {
+  margin-bottom: 1.2em;
+}
+
+.status {
+  text-align: center;
+  font-size: 1.2em;
+  margin: 0.7em 0 1.2em;
+}
+
+.success {
+  color: #238500;
+}
+
+.error {
+  color: #d60000;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5em;
+  align-items: stretch;
+}
+
+.admin-card {
+  background: #fff;
+  border: 2px solid $border-color;
+  border-radius: 1.5em;
+  box-shadow: 0 0.4em 1.1em rgba(0, 0, 0, 0.12);
+  padding: 1.8em;
+  margin-bottom: 1.5em;
+}
+
+.login-card {
+  max-width: 42em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.3em;
+}
+
+.form-field,
+.file-field {
+  display: block;
+  margin-bottom: 1.25em;
+  color: $text-color;
+}
+
+.form-field span,
+.file-field span {
+  display: block;
+  font-size: 1.05em;
+  line-height: 1.3;
+  margin: 0 0 0.35em;
+  color: $text-color;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid $text-color;
+  border-radius: 0;
+  background: #fff;
+  color: $text-color;
+  font-family: inherit;
+  font-size: 1.05em;
+  line-height: 1.4;
+  padding: 0.35em 0.25em;
+  outline: none;
+}
+
+.form-field select {
+  cursor: pointer;
+  min-height: 2.35em;
+}
+
+.form-field textarea {
+  min-height: 5.5em;
+  resize: vertical;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-bottom-color: $base-color;
+  box-shadow: 0 2px 0 rgba(61, 186, 0, 0.25);
+}
+
+.file-field input[type="file"] {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  color: $text-color;
+  font-size: 1.05em;
+}
+
+button {
+  background-color: $base-color;
+  background: linear-gradient(rgb(82, 173, 3), rgb(35, 165, 0), rgb(47, 108, 31));
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 20em;
+  margin: 0.25em;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+#btnLogin,
+#btnUpload,
+#btnCreateAdmin,
+#btnChangePassword,
+#btnBack,
+#btnLogout {
+  font-size: 1.35em;
+  min-width: 8em;
+  height: 2.25em;
+}
+
+.small-button {
+  font-size: 0.95em;
+  min-width: 6em;
+  height: 2.2em;
+}
+
+.danger {
+  background: linear-gradient(rgb(210, 55, 55), rgb(145, 0, 0), rgb(90, 0, 0));
+}
+
+.admin-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  border-bottom: 1px solid #dddddd;
+  padding: 0.55em 0;
+  font-size: 1.15em;
+}
+
+.empty-text {
+  color: #444;
+  font-size: 1.05em;
+}
+
+.content-list-card {
+  margin-top: 1.5em;
+}
+
+.content-item {
+  display: grid;
+  grid-template-columns: minmax(18em, 28em) minmax(0, 1fr);
+  gap: 1.5em;
+  align-items: center;
+  border-top: 1px solid #dddddd;
+  padding: 1.5em 0;
+}
+
+.content-preview {
+  text-align: center;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.content-preview audio,
+.content-preview video,
+.content-preview iframe,
+.content-preview img {
+  max-width: 100%;
+}
+
+.content-info {
+  min-width: 0;
+  text-align: left;
+}
+
+.own-password-note {
+  font-size: 1.05em;
+  margin: 0 0 1.25em;
+}
+
+
+.link-text {
+  font-size: 0.9em;
+  word-break: break-all;
+  color: #555;
+}
+
+@media (max-width: 1000px) {
+  .admin-grid,
+  .form-row,
+  .content-item {
+    display: block;
+  }
+
+  .admin-card {
+    padding: 1.4em;
+  }
+}

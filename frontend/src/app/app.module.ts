@@ -14,8 +14,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { QuestionComponent } from './question/question.component';
 import { ResultComponent } from './result/result.component';
+import { AdminComponent } from './admin/admin.component';
 import { GameService } from './services/game.service';
 
 export function initGameConfig(gameService: GameService) {
@@ -27,6 +29,7 @@ export function initGameConfig(gameService: GameService) {
     AppComponent,
     QuestionComponent,
     ResultComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +40,7 @@ export function initGameConfig(gameService: GameService) {
     MatCardModule,
     MatIconModule,
     MatSelectModule,
+    MatSnackBarModule,
     FormsModule,
     NgIf,
     NgFor,

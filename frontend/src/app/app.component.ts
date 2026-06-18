@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DisplayService } from './services/display.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GameService } from './services/game.service';
@@ -9,8 +9,16 @@ import { GameService } from './services/game.service';
   styleUrls: ['./app.component.scss'],
   providers: [MatSnackBar],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(private gameService: GameService, private displayService: DisplayService){}
+
+  ngOnInit(): void {
+    const path = window.location.pathname.replace(/\/$/, '');
+
+    if (path === '/admin') {
+      this.displayService.setView('Admin');
+    }
+  }
 
   get levels(): number[] {
     return Array.from({ length: this.gameService.getLastLevel() }, (_, i) => i + 1);
@@ -42,5 +50,9 @@ export class AppComponent {
 
   isFinishView(): boolean {
     return this.displayService.getView() == "Finish";
+  }
+
+  isAdminView(): boolean {
+    return this.displayService.getView() == "Admin";
   }
 }
