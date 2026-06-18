@@ -32,6 +32,13 @@ jobs:
           npm ci
           npm run build
 
+      - name: Prepare release variables
+        run: |
+          SHORT_SHA="${GITHUB_SHA::7}"
+          echo "SHORT_SHA=${SHORT_SHA}" >> "$GITHUB_ENV"
+          echo "RELEASE_TAG=build-${SHORT_SHA}" >> "$GITHUB_ENV"
+          echo "ZIP_NAME=artificialornaturalintelligence-${SHORT_SHA}.zip" >> "$GITHUB_ENV"
+
       - name: Package build artifacts
         run: |
           mkdir -p release
@@ -39,13 +46,13 @@ jobs:
           cp -r backend/dist release/backend
           cp -r frontend/dist release/frontend
 
-          zip -r "artificialornaturalintelligence-${GITHUB_SHA}.zip" release
+          zip -r "$ZIP_NAME" release
 
       - name: Create GitHub release
         run: |
-          gh release create "${GITHUB_SHA}" \
-            "artificialornaturalintelligence-${GITHUB_SHA}.zip" \
-            --title "Release ${GITHUB_SHA}" \
+          gh release create "$RELEASE_TAG" \
+            "$ZIP_NAME" \
+            --title "Release $RELEASE_TAG" \
             --notes "Automated release for commit ${GITHUB_SHA}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
