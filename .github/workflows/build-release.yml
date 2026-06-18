@@ -8,31 +8,44 @@ permissions:
   contents: write
 
 jobs:
-  docker-backend:
+  build-release:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '26'
-          
-      - name: build backend
+
+      - name: Build backend
         working-directory: backend
         run: |
           npm ci
           npm run build
 
-      - name: build frontend
+      - name: Build frontend
         working-directory: frontend
         run: |
           npm ci
           npm run build
 
-      - name: create and release zip
+      - name: Package build artifacts
         run: |
-          zip -r artificialornaturalintelligence-${GITHUB_SHA}.zip . -x ".github/*" ".git/*" "frontend/.angular/*" "documentation/*"
-          gh release upload ${GITHUB_SHA} artificialornaturalintelligence-${GITHUB_SHA}.zip
+          mkdir -p release
+
+          cp -r backend/dist release/backend
+          cp -r frontend/dist release/frontend
+
+          zip -r "artificialornaturalintelligence-${GITHUB_SHA}.zip" release
+
+      - name: Create GitHub release
+        run: |
+          gh release create "${GITHUB_SHA}" \
+            "artificialornaturalintelligence-${GITHUB_SHA}.zip" \
+            --title "Release ${GITHUB_SHA}" \
+            --notes "Automated release for commit ${GITHUB_SHA}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
