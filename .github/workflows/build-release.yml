@@ -46,7 +46,8 @@ jobs:
           cp -r backend/dist release/backend
           cp -r frontend/dist release/frontend
 
-          zip -r "$ZIP_NAME" release
+          cd release
+          zip -r "../$ZIP_NAME" .
 
       - name: Create GitHub release
         run: |
