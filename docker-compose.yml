@@ -1,6 +1,7 @@
 services:
   artificialornaturalintelligence-postgres:
     image: postgres:alpine
+    container_name: artificialornaturalintelligence-postgres
     shm_size: 128mb
     networks: ["artificialornaturalintelligence-network"]
     ports:
@@ -19,7 +20,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     depends_on: ["artificialornaturalintelligence-postgres"]
     restart: unless-stopped
 
@@ -30,8 +31,6 @@ services:
     networks: ["artificialornaturalintelligence-network"]
     ports:
       - "4200:4200"
-    environment:
-      - NODE_ENV=development
     depends_on: ["artificialornaturalintelligence-backend"]
     restart: unless-stopped
 
