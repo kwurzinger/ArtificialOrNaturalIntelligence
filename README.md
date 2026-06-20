@@ -71,21 +71,15 @@ Die Anzahl der Levels und die Anzahl der Fragen pro Level können jederzeit in d
 
 Zunächst das Repository klonen und ins geklonte Verzeichnis wechseln. Benötigt `dockerd` bzw. Docker Desktop
 
-Dann ins `backend`-Verzeichnis wechseln und die `.env`-Datei aus der Vorlage erstellen
+Die `.env`-Datei aus der Vorlage im Wurzelverzeichnis erstellen
 
 ```bash
 cd backend
 cp .env.example .env
 ```
 
-Dabei ist der Wert von `PG_HOST` von `localhost` nach `artificialornaturalintelligence-postgres` abzuändern.
+Zuletzt die Docker Container erstellen und ausführen, `--build` anführen um die Images frisch zu bauen.
 
 ``` bash
-sed -i 's/PG_HOST=localhost/PG_HOST=artificialornaturalintelligence-postgres/g' backend/.env
-```
-
-Zuletzt in die Wurzel des Repositorys zurückwechseln und die Docker-Container erstellen und ausführen.
-
-``` bash
-docker compose --env-file ./backend/.env up -d --build
+docker compose up -d --build
 ```

@@ -1,0 +1,12 @@
+node_modules
+dist
+README.md
+.prettierrc
+.gitignore
+.editorconfig
+.vscode
+.angular
+Dockerfile
+.dockerignore
+.env.example
+.env
