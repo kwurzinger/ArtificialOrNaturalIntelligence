@@ -1,14 +1,16 @@
 services:
   artificialornaturalintelligence-postgres:
     image: postgres:alpine
+    container_name: artificialornaturalintelligence-postgres
     shm_size: 128mb
     networks: ["artificialornaturalintelligence-network"]
     ports:
-      - "5432"
+      - "${PG_PORT}"
     environment:
       - POSTGRES_USER=${PG_USERNAME}
       - POSTGRES_PASSWORD=${PG_PASSWORD}
       - POSTGRES_DB=${PG_DBNAME}
+      - PGPORT=${PG_PORT}
     restart: unless-stopped
 
   artificialornaturalintelligence-backend:
@@ -17,9 +19,24 @@ services:
     image: node-artificialornaturalintelligence-backend
     networks: ["artificialornaturalintelligence-network"]
     ports:
-      - "3000:3000"
+      - "${API_PORT}:3000"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
+      - PG_HOST=${PG_HOST}
+      - PG_PORT=${PG_PORT}
+      - PG_PASSWORD=${PG_PASSWORD}
+      - PG_USERNAME=${PG_USERNAME}
+      - PG_DBNAME=${PG_DBNAME}
+      - ADMIN_DEFAULT_USERNAME=${ADMIN_DEFAULT_USERNAME}
+      - ADMIN_DEFAULT_PASSWORD=${ADMIN_DEFAULT_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+      - ANGULAR_URL=${ANGULAR_URL}
+      - DOCS_ENDPOINT=${DOCS_ENDPOINT}
+      - CONTENT_ENDPOINT=${CONTENT_ENDPOINT}
+      - CONTENT_DIR=${CONTENT_DIR}
+      - BASE_URL=${BASE_URL}
+      - API_PORT=${API_PORT}
     depends_on: ["artificialornaturalintelligence-postgres"]
     restart: unless-stopped
 
@@ -29,9 +46,9 @@ services:
     image: node-artificialornaturalintelligence-frontend
     networks: ["artificialornaturalintelligence-network"]
     ports:
-      - "4200:4200"
+      - "${FRONTEND_PORT}:4200"
     environment:
-      - NODE_ENV=development
+      - API_PORT=${API_PORT}
     depends_on: ["artificialornaturalintelligence-backend"]
     restart: unless-stopped
 
