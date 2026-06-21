@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import { GameService } from './game.service';
 
 type AdminLoginResponse = { access_token: string };
 export type AdminUser = { admin_id: number; username: string };
@@ -16,13 +17,12 @@ export type ContentAdminItem = {
   providedIn: 'root'
 })
 export class AdminService {
-  private baseURL: string = 'http://localhost:5000';
   private tokenStorageKey: string = 'adminAccessToken';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private gameService: GameService) {}
 
   login(username: string, password: string): Observable<void> {
-    return this.http.post<AdminLoginResponse>(`${this.baseURL}/admin/login`, { username, password }).pipe(
+    return this.http.post<AdminLoginResponse>(`${this.gameService.getBackendURL()}/admin/login`, { username, password }).pipe(
       map(response => {
         localStorage.setItem(this.tokenStorageKey, response.access_token);
       }),
@@ -62,25 +62,25 @@ export class AdminService {
   }
 
   getUsers(): Observable<AdminUser[]> {
-    return this.http.get<AdminUser[]>(`${this.baseURL}/admin/users`, { headers: this.getAuthHeaders() }).pipe(
+    return this.http.get<AdminUser[]>(`${this.gameService.getBackendURL()}/admin/users`, { headers: this.getAuthHeaders() }).pipe(
       catchError((err: HttpErrorResponse) => this.handleError(err))
     );
   }
 
   createUser(username: string, password: string): Observable<AdminUser> {
-    return this.http.post<AdminUser>(`${this.baseURL}/admin`, { username, password }, { headers: this.getAuthHeaders() }).pipe(
+    return this.http.post<AdminUser>(`${this.gameService.getBackendURL()}/admin`, { username, password }, { headers: this.getAuthHeaders() }).pipe(
       catchError((err: HttpErrorResponse) => this.handleError(err))
     );
   }
 
   deleteUser(username: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseURL}/admin/${encodeURIComponent(username)}`, { headers: this.getAuthHeaders() }).pipe(
+    return this.http.delete<void>(`${this.gameService.getBackendURL()}/admin/${encodeURIComponent(username)}`, { headers: this.getAuthHeaders() }).pipe(
       catchError((err: HttpErrorResponse) => this.handleError(err))
     );
   }
 
   changePassword(username: string, currentPassword: string, newPassword: string): Observable<void> {
-    return this.http.put<void>(`${this.baseURL}/admin/change-password`, {
+    return this.http.put<void>(`${this.gameService.getBackendURL()}/admin/change-password`, {
       username,
       currentPassword,
       newPassword,
@@ -96,13 +96,13 @@ export class AdminService {
     formData.append('content_advisory_text', content_advisory_text ?? '');
     formData.append('file', file);
 
-    return this.http.post<ContentAdminItem>(`${this.baseURL}/content`, formData, { headers: this.getAuthHeaders() }).pipe(
+    return this.http.post<ContentAdminItem>(`${this.gameService.getBackendURL()}/content`, formData, { headers: this.getAuthHeaders() }).pipe(
       catchError((err: HttpErrorResponse) => this.handleError(err))
     );
   }
 
   deleteContent(content_id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseURL}/content/${content_id}`, { headers: this.getAuthHeaders() }).pipe(
+    return this.http.delete<void>(`${this.gameService.getBackendURL()}/content/${content_id}`, { headers: this.getAuthHeaders() }).pipe(
       catchError((err: HttpErrorResponse) => this.handleError(err))
     );
   }

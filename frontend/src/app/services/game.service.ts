@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 type AppConfig = {
+  backendURL?: string;
   lastLevel?: number;
   maxQuestionsPerLevel?: number;
   hintsEnabled?: boolean;
@@ -16,6 +17,7 @@ export class GameService {
     private maxQuestionsPerLevel: number = 0;
     private currentLevel: number = 0;
     private hintsEnabled: boolean = false;
+    private backendURL: string = '';
     private askedQuestionsForLevel: string[] = [];
     private userAnswersForLevel: string[] = [];
     private correctAnswersForLevel: string[] = [];
@@ -26,6 +28,7 @@ export class GameService {
     loadConfig(): Promise<void> {
         return firstValueFrom(this.http.get<AppConfig>('assets/app-config.json'))
         .then(config => {
+            if (config.backendURL != null) this.backendURL = String(config.backendURL);
             if (config.lastLevel != null) this.lastLevel = Number(config.lastLevel);
             if (config.maxQuestionsPerLevel != null) this.maxQuestionsPerLevel = Number(config.maxQuestionsPerLevel);
             if (config.hintsEnabled != null) this.hintsEnabled = Boolean(config.hintsEnabled);
@@ -33,6 +36,10 @@ export class GameService {
         .catch(() => {
             throw new Error("Fatal Error! Die Konfiguration konnte nicht geladen werden!");
         });
+    }
+
+    getBackendURL(): string {
+        return this.backendURL;
     }
 
     getLastLevel(): number {

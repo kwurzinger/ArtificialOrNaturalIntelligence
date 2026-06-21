@@ -12,8 +12,8 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Admin } from './entities/admin.entity';
 
-const ROOT_ADMIN_USERNAME = 'admin';
-const BCRYPT_ROUNDS = 12;
+let ROOT_ADMIN_USERNAME: string = 'admin';
+const BCRYPT_ROUNDS: number = 12;
 
 @Injectable()
 export class AdminService implements OnModuleInit {
@@ -26,7 +26,10 @@ export class AdminService implements OnModuleInit {
     const count = await this.adminRepo.count();
     if (count > 0) return;
 
+    //Default admin user anlegen, wenn noch kein Admin existiert
     const username = process.env.ADMIN_DEFAULT_USERNAME ?? ROOT_ADMIN_USERNAME;
+    ROOT_ADMIN_USERNAME = username; // Setze den Root-Admin-Benutzernamen auf den Standardwert oder den aus der Umgebungsvariable
+
     const password = process.env.ADMIN_DEFAULT_PASSWORD ?? 'password';
     const hash = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
@@ -84,7 +87,7 @@ export class AdminService implements OnModuleInit {
     if (!normalizedUsername) throw new BadRequestException('Username darf nicht leer sein');
 
     if (normalizedUsername === ROOT_ADMIN_USERNAME) {
-      throw new BadRequestException('Der Rootadmin "admin" darf nicht gelöscht werden');
+      throw new BadRequestException(`Der Rootadmin "${ROOT_ADMIN_USERNAME}" darf nicht gelöscht werden`);
     }
 
     const admin = await this.adminRepo.findOne({ where: { username: normalizedUsername } });

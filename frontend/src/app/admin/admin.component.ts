@@ -4,7 +4,6 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { AdminService, AdminUser, ContentAdminItem } from '../services/admin.service';
 import { ContentService } from '../services/content.service';
-import { DisplayService } from '../services/display.service';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -36,7 +35,6 @@ export class AdminComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private contentService: ContentService,
-    private displayService: DisplayService,
     private gameService: GameService,
     private sanitizer: DomSanitizer,
   ) {}

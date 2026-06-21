@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DisplayService } from './display.service';
+import { GameService } from './game.service';
 
 type ContentIdsDto = { content_id: number };
 
@@ -9,13 +10,11 @@ type ContentIdsDto = { content_id: number };
   providedIn: 'root'
 })
 export class ContentService {
-  constructor(private http: HttpClient, private displayService: DisplayService) {}
-
-  private baseURL: string = "http://localhost:5000";
+  constructor(private http: HttpClient, private displayService: DisplayService, private gameService: GameService) {}
 
   getContentIdsByLevel(level: number): Observable<number[]> {
     return this.http
-      .get<ContentIdsDto[]>(`${this.baseURL}/content/level/${level}`)
+      .get<ContentIdsDto[]>(`${this.gameService.getBackendURL()}/content/level/${level}`)
       .pipe(
         map(items => items.map(x => x.content_id)),
         catchError((err: HttpErrorResponse) => {
@@ -31,7 +30,7 @@ export class ContentService {
   }
 
   getContentById(content_id: number): Observable<any> {
-    return this.http.get(`${this.baseURL}/content/${content_id}`);
+    return this.http.get(`${this.gameService.getBackendURL()}/content/${content_id}`);
   }
 
   renderContentFromLink(content_link: string): string {
