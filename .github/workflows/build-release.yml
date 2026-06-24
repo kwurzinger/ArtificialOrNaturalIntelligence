@@ -25,13 +25,14 @@ jobs:
         run: |
           npm ci
           npm run build
+          npm pack
 
       - name: Build frontend
         working-directory: frontend
         run: |
           npm ci
           npm run build
-
+          
       - name: Prepare release variables
         run: |
           SHORT_SHA="${GITHUB_SHA::7}"
@@ -41,10 +42,12 @@ jobs:
 
       - name: Package build artifacts
         run: |
-          mkdir -p release
+          mkdir -p release/{backend,frontend}
 
-          cp -r backend/dist release/backend
+          tar -xzf backend/backend-0.0.1.tgz
+          cp -r package/* release/backend
           cp -r frontend/dist release/frontend
+          cp INSTALL.md release/
 
           cd release
           zip -r "../$ZIP_NAME" .
