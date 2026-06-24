@@ -22,3 +22,4 @@ ArtificialOrNaturalIntelligence ist ein Webbasiertes Ratespiel, bei dem es darum
 | Michael Walch             | Build & Release Engineer                               |
 | Zsolt Pataky              | Frontend Entwicklung                                   |
 
+##### Die Installationsanleitungen für die verschiedenen Varianten befindet sich in der Datei [INSTALL.md](/INSTALL.md)

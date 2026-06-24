@@ -1,0 +1,82 @@
+services:
+  artificialornaturalintelligence-postgres:
+    image: postgres:17-alpine
+    container_name: artificialornaturalintelligence-postgres
+    shm_size: 128mb
+    networks:
+      - artificialornaturalintelligence-network
+    ports:
+      - "${PG_PORT}:5432"
+    environment:
+      POSTGRES_USER: ${PG_USERNAME}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DBNAME}
+    volumes:
+      - artificialornaturalintelligence-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USERNAME} -d ${PG_DBNAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  artificialornaturalintelligence-backend:
+    # aktuellen Tag des Images aus dem Repo unter Packages holen
+    image: ghcr.io/kwurzinger/artificialornaturalintelligence-backend:e8a7b4e08ec6e461842308cefe32214c6c51a82f
+    container_name: artificialornaturalintelligence-backend
+    networks:
+      - artificialornaturalintelligence-network
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    environment:
+      NODE_ENV: production
+
+      PG_HOST: artificialornaturalintelligence-postgres
+      PG_PORT: 5432
+      PG_USERNAME: ${PG_USERNAME}
+      PG_PASSWORD: ${PG_PASSWORD}
+      PG_DBNAME: ${PG_DBNAME}
+
+      ADMIN_DEFAULT_USERNAME: ${ADMIN_DEFAULT_USERNAME}
+      ADMIN_DEFAULT_PASSWORD: ${ADMIN_DEFAULT_PASSWORD}
+
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+
+      ANGULAR_URL: ${ANGULAR_URL}
+
+      DOCS_ENDPOINT: ${DOCS_ENDPOINT}
+      CONTENT_ENDPOINT: ${CONTENT_ENDPOINT}
+      CONTENT_DIR: ${CONTENT_DIR}
+
+      BASE_URL: ${BASE_URL}
+      API_PORT: ${API_PORT}
+    depends_on:
+      artificialornaturalintelligence-postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  artificialornaturalintelligence-frontend:
+    # aktuellen Tag des Images aus dem Repo unter Packages holen
+    image: ghcr.io/kwurzinger/artificialornaturalintelligence-frontend:e8a7b4e08ec6e461842308cefe32214c6c51a82f
+    container_name: artificialornaturalintelligence-frontend
+    networks:
+      - artificialornaturalintelligence-network
+    ports:
+      - "${FRONTEND_PORT}:80"
+    environment:
+      BASE_URL: ${BASE_URL}
+      API_PORT: ${API_PORT}
+
+      FRONTEND_LAST_LEVEL: ${FRONTEND_LAST_LEVEL:-5}
+      FRONTEND_MAX_QUESTIONS_PER_LEVEL: ${FRONTEND_MAX_QUESTIONS_PER_LEVEL:-2}
+      FRONTEND_HINTS_ENABLED: ${FRONTEND_HINTS_ENABLED:-true}
+    depends_on:
+      - artificialornaturalintelligence-backend
+    restart: unless-stopped
+
+networks:
+  artificialornaturalintelligence-network:
+
+volumes:
+  artificialornaturalintelligence-postgres-data:

@@ -1,24 +1,31 @@
 # ArtificialOrNaturalIntelligence - Installation
 
-## Native Release
+## Installationen in einer Produktivumgebung
 
-### Voraussetzungen
+### Native Installation
+
+#### Voraussetzungen
 
 - Webserver (Apache, nginx, etc.)
 - PostgreSQL Datenbankserver
-- Node.js (zusätzlich `npm` für `pm2`)
+- Node.js (zusätzlich `npm` für die Verwendung von `pm2` empfohlen)
 
-### Installation
+#### Installation
 
 Das aktuelle Release vom GitHub-Repository herunterladen und entpacken.
+Danach im Ordner Frontend den Ordner prod ins öffentliche Verzeichnis des Webservers kopieren.
+Die Anzahl der Levels und die Anzahl der Fragen pro Level können jederzeit bei Bedarf in der Datei
+"app-config.json" nach Wunsch umgestellt werden. Die Einstellung "backendURL" ist verpflichtend, da ansonsten das Frontend
+nicht mit dem Backend kommunizieren kann.
 
 ```bash
 cd frontend/prod
-cp -r . /usr/share/nginx/html/ # Beispiel für nginx
-cd ../../
+cp -r frontend/prod /usr/share/nginx/html/ # Beispiel für nginx, je nach Webserver muss der Zielpfad entsprechend angepasst werden
 ```
 
-Dann den Webserver nginx und PostgreSQL-Server starten. Die vorgeschlagene Konfiguration in `.env.example` entspricht der Standardkonfiguration des PostgreSQL-Servers sowie von nginx.
+Dann den Webserver nginx und PostgreSQL-Server starten. Die vorgeschlagene Konfiguration in `.env.example` entspricht der Standardkonfiguration des PostgreSQL-Servers sowie von Backend und Frontend.
+
+Es muss als Vorbereitung zwingend eine leere Datenbank in postgresql angelegt werden (Der Name wird in der env Konfiguration eingetragen)!!!
 
 Das Backend ausführen, mit `node` oder mit `pm2`.
 
@@ -27,35 +34,26 @@ cd backend
 cp .env.example .env
 node main.js
 
-// alternativ mit pm2 statt node
+# optional mit pm2 statt node (empfohlen, da man über `pm2 monit` eine gute Übersicht über node.js Services bekommt)
 npm install pm2
-npx pm2 start main.js
+pm2 start main.js
 ```
 
+### Containerisierte Installation für Komodo, Portainer oder ähnliches
 
-## Lokale Docker Installation
+Möchte man die Produktivinstallation containerisiert machen, gibt es neben dem Release unter Packages 2 Container Images (unter Packages),
+welche über die Github Registry öffentlich erreichbar sind und gepullt werden können für beliebige Deployments (z.B. wenn man ein Deployment in einem Kubernetes Cluster vornehmen möchte, alles ist möglich)
 
-Zunächst das Repository klonen und ins geklonte Verzeichnis wechseln. Benötigt `dockerd` bzw. Docker Desktop
+Für eine Docker Compose basierte Installation (z.B. unter Verwendung von Komodo/Portainer) gibt es eine vorbereitete Vorlage namens (docker-compose.yml.prod), welche im Komodo/Portainer beim Erstellen eines Stacks reinkopiert werden kann. Zusätzlich müssen dann noch die ENV Variablen aus der .env.example Datei reinkopiert werden.
 
-Die `.env`-Datei aus der Vorlage im Wurzelverzeichnis erstellen
+## Lokale Installationen aus dem Github Repository
 
-```bash
-cd backend
-cp .env.example .env
-```
-
-Zuletzt die Docker Container erstellen und ausführen.
-
-``` bash
-docker compose up -d
-```
-
-## Lokale Installation aus GitHub Repository
+### Lokale Installation nativ
 
 Zunächst das Repository klonen und öffnen. Danach ausgehend vom Project Root wie folgt
 das Backend und das Frontend einrichten.
 
-### Backend starten
+#### Backend starten
 
 In den Ordner wechseln und die .env Datei aus dem Template heraus erstellen
 ```bash
@@ -78,7 +76,8 @@ npm run start
 Das NestJS Backend startet per Default auf http://localhost:3000.
 Die URL und einige andere Einstellungen können in der .env Datei angepasst.
 
-### Frontend starten
+#### Frontend starten
+
 ```bash
 cd frontend
 npm install
@@ -89,3 +88,18 @@ Der Angular Dev-Server läuft anschließend standardmäßig auf http://localhost
 Die Anzahl der Levels und die Anzahl der Fragen pro Level können jederzeit in der Datei
 "app-config.json" nach Wunsch umgestellt werden.
 
+### Lokale Installation mit Docker Compose (geht auch mit Podman, im folgenden konzentriert sich diese Anleitung aber auf Docker)
+
+Das Repository klonen und ins geklonte Verzeichnis wechseln. Benötigt `dockerd` bzw. Docker Desktop
+
+Die `.env`-Datei aus der Vorlage im Wurzelverzeichnis erstellen und bei Bedarf anpassen
+
+```bash
+cp .env.example .env
+```
+
+Zuletzt die Docker Container erstellen und ausführen.
+
+``` bash
+docker compose up -d
+```
