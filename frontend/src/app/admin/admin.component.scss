@@ -253,3 +253,28 @@ button {
   .admin-grid, .form-row, .content-item { display: block; }
   .admin-card { padding: 1.4em; }
 }
+
+// ─── TXT preview in admin ─────────────────────────────────────────────────────
+.txt-content {
+  font-family: var(--font-ui);
+  font-size: 0.82em;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text-primary);
+  background: var(--bg-surface-mid);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.75em 1em;
+  margin: 0 auto;
+  max-width: 420px;
+  max-height: 160px;
+  overflow-y: auto;
+  display: block;
+}
+
+.txt-loading {
+  color: var(--text-muted);
+  font-family: var(--font-tech);
+  font-size: 0.82em;
+}

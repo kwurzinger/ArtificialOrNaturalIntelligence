@@ -42,12 +42,25 @@
   font-size: 1.1em;
   transition: font-family 0.4s, color 0.4s;
 
-  // AI mode: monospace feel for content
+  // AI mode: force all child text to use light color
   :root[data-mode="ai"] & {
     font-family: var(--font-ui);
     border-left: 2px solid var(--primary);
     padding-left: 1.5em;
     opacity: 0.9;
+
+    // Override any inline or browser-default colors from backend HTML
+    // including textarea which does not inherit color
+    *, *::before, *::after {
+      color: var(--text-primary) !important;
+      background-color: transparent !important;
+    }
+    textarea {
+      color: var(--text-primary) !important;
+      background-color: var(--bg-surface-mid) !important;
+      border: 1px solid var(--border-color-strong) !important;
+      caret-color: var(--primary) !important;
+    }
   }
 
   // Human mode: editorial generous leading
@@ -96,13 +109,18 @@
   // AI mode: hollow with glowing border
   :root[data-mode="ai"] & {
     background: transparent;
-    border: 1px solid var(--btn-border);
+    border: 2px solid rgba(0, 224, 255, 0.75);
     color: var(--btn-text);
     box-shadow: var(--shadow-btn), inset 0 0 20px rgba(0,224,255,0.04);
 
     &:hover:not(:disabled) {
       background: rgba(0, 224, 255, 0.08);
-      box-shadow: 0 0 20px rgba(0, 224, 255, 0.5);
+      border-color: rgba(0, 224, 255, 1);
+      box-shadow:
+        0 0 16px rgba(0, 224, 255, 0.55),
+        0 6px 24px rgba(0, 224, 255, 0.35),
+        inset 0 0 20px rgba(0, 224, 255, 0.06);
+      transform: translateY(-2px);
     }
   }
 
@@ -126,4 +144,25 @@
     transform: none !important;
     box-shadow: none !important;
   }
+}
+
+// ─── TXT content rendered as pre ─────────────────────────────────────────────
+.txt-content {
+  font-family: var(--font-ui);
+  font-size: 1em;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.txt-loading {
+  color: var(--text-muted);
+  font-family: var(--font-tech);
+  font-size: 0.85em;
 }

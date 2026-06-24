@@ -3,6 +3,7 @@ import { ContentService } from '../services/content.service';
 import { DisplayService } from '../services/display.service';
 import { GameService } from '../services/game.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-question',
@@ -13,7 +14,8 @@ export class QuestionComponent implements OnInit {
     constructor(private contentService: ContentService,
         private gameService: GameService,
         private displayService: DisplayService,
-        private sanitizer: DomSanitizer) {}
+        private sanitizer: DomSanitizer,
+        private http: HttpClient) {}
 
     private buttonsDisabled: boolean;
     private numberOfDrawnQuestionsInLevel: number;
@@ -91,13 +93,36 @@ export class QuestionComponent implements OnInit {
         this.contentService.getContentById(randomContentId).subscribe({
             next: content => {
                 this.gameService.addCorrectAnswerForLevel(content.content_creator);
-                const html = this.contentService.renderContentFromLink(content.content_link);
-                this.contentHTML = this.sanitizer.bypassSecurityTrustHtml(html);
                 this.hintText = content.content_advisory_text;
                 this.gameService.addAskedQuestionForLevel(content.content_link);
                 this.contentIdsForLevel.splice(randomIndex, 1);
                 this.numberOfDrawnQuestionsInLevel++;
-                this.buttonsDisabled = false;
+
+                const link: string = content.content_link;
+                const ext = link.substring(link.lastIndexOf('.')).toLowerCase();
+
+                if (ext === '.txt') {
+                    this.contentHTML = this.sanitizer.bypassSecurityTrustHtml('<span class="txt-loading">Lade Text...</span>');
+                    // Use relative URL via Angular proxy to avoid CORS (see proxy.conf.json)
+                    const proxyLink = link.replace(/^https?:\/\/[^\/]+/, '');
+                    this.http.get(proxyLink, { responseType: 'text' }).subscribe({
+                        next: (text: string) => {
+                            const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                            this.contentHTML = this.sanitizer.bypassSecurityTrustHtml(`<pre class="txt-content">${escaped}</pre>`);
+                            this.buttonsDisabled = false;
+                        },
+                        error: (err: any) => {
+                            console.error('TXT load error:', err);
+                            const html = this.contentService.renderContentFromLink(link);
+                            this.contentHTML = this.sanitizer.bypassSecurityTrustHtml(html);
+                            this.buttonsDisabled = false;
+                        }
+                    });
+                } else {
+                    const html = this.contentService.renderContentFromLink(link);
+                    this.contentHTML = this.sanitizer.bypassSecurityTrustHtml(html);
+                    this.buttonsDisabled = false;
+                }
             }
         });
     }

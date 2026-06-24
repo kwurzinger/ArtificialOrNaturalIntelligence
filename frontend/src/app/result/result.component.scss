@@ -54,3 +54,45 @@ h1 {
     }
   }
 }
+
+// ─── Result rows ──────────────────────────────────────────────────────────────
+.result-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+  padding: 1em 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.result-content {
+  flex: 0 0 auto;
+}
+
+.result-content .txt-content {
+  font-family: var(--font-ui);
+  font-size: 0.85em;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  margin: 0;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.result-label {
+  font-family: var(--font-tech);
+  font-size: 1.1em;
+  font-weight: 600;
+  flex: 1;
+}
+
+.answer-correct {
+  color: var(--success-color);
+}
+
+.answer-wrong {
+  color: var(--error-color);
+}
