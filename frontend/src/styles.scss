@@ -33,7 +33,7 @@ body {
 }
 
 // ─── Scanline overlay for AI mode ─────────────────────────────────────────
-:root[data-mode="ai"] body::before {
+:root[data-mode="dark"] body::before {
   content: '';
   position: fixed;
   inset: 0;
@@ -63,8 +63,8 @@ body {
   to   { opacity: 1; }
 }
 
-.mode-switch-ai    { animation: glitch-flash 0.12s steps(2) forwards; }
-.mode-switch-human { animation: soft-fadein 0.4s ease forwards; }
+.mode-switch-dark    { animation: glitch-flash 0.12s steps(2) forwards; }
+.mode-switch-light { animation: soft-fadein 0.4s ease forwards; }
 
 // ─── Global button reset ──────────────────────────────────────────────────
 button {
@@ -73,33 +73,33 @@ button {
 }
 
 // ─── Scrollbar styling ────────────────────────────────────────────────────
-:root[data-mode="ai"] {
+:root[data-mode="dark"] {
   scrollbar-color: #00E0FF #0d1516;
 }
-:root[data-mode="human"] {
+:root[data-mode="light"] {
   scrollbar-color: #E67E51 #f5f3ee;
 }
 
 // ─── TXT content global override (dynamically injected, needs global scope) ──
-:root[data-mode="ai"] .txt-content {
+:root[data-mode="dark"] .txt-content {
   color: var(--text-primary) !important;
   background: transparent !important;
 }
 
-:root[data-mode="human"] .txt-content {
+:root[data-mode="light"] .txt-content {
   color: var(--text-primary) !important;
   background: transparent !important;
 }
 
 // answer colors in result must override inline styles
-:root[data-mode="ai"] .answer-correct { color: var(--success-color) !important; }
-:root[data-mode="ai"] .answer-wrong   { color: var(--error-color) !important; }
-:root[data-mode="human"] .answer-correct { color: var(--success-color) !important; }
-:root[data-mode="human"] .answer-wrong   { color: var(--error-color) !important; }
+:root[data-mode="dark"] .answer-correct { color: var(--success-color) !important; }
+:root[data-mode="dark"] .answer-wrong   { color: var(--error-color) !important; }
+:root[data-mode="light"] .answer-correct { color: var(--success-color) !important; }
+:root[data-mode="light"] .answer-wrong   { color: var(--error-color) !important; }
 
-// ─── AI mode button overrides (global scope needed for encapsulation) ─────────
-:root[data-mode="ai"] #btnAI,
-:root[data-mode="ai"] #btnHuman {
+// ─── Dark mode button overrides (global scope needed for encapsulation) ─────────
+:root[data-mode="dark"] #btnAI,
+:root[data-mode="dark"] #btnHuman {
   background: transparent !important;
   border: 2px solid rgba(0, 224, 255, 0.75) !important;
   color: #00E0FF !important;
@@ -108,8 +108,8 @@ button {
   transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s !important;
 }
 
-:root[data-mode="ai"] #btnAI:hover:not(:disabled),
-:root[data-mode="ai"] #btnHuman:hover:not(:disabled) {
+:root[data-mode="dark"] #btnAI:hover:not(:disabled),
+:root[data-mode="dark"] #btnHuman:hover:not(:disabled) {
   background: rgba(0, 224, 255, 0.1) !important;
   border-color: rgba(0, 224, 255, 1) !important;
   box-shadow:
@@ -119,16 +119,16 @@ button {
   transform: translateY(-2px) !important;
 }
 
-:root[data-mode="ai"] #btnAI:disabled,
-:root[data-mode="ai"] #btnHuman:disabled {
+:root[data-mode="dark"] #btnAI:disabled,
+:root[data-mode="dark"] #btnHuman:disabled {
   opacity: 0.35 !important;
   box-shadow: none !important;
   transform: none !important;
 }
 
-// ─── Human mode button overrides (global scope) ───────────────────────────────
-:root[data-mode="human"] #btnAI,
-:root[data-mode="human"] #btnHuman {
+// ─── Light mode button overrides (global scope) ───────────────────────────────
+:root[data-mode="light"] #btnAI,
+:root[data-mode="light"] #btnHuman {
   background: #E67E51 !important;
   border: 2px solid #E67E51 !important;
   color: #ffffff !important;
@@ -137,8 +137,8 @@ button {
   transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s !important;
 }
 
-:root[data-mode="human"] #btnAI:hover:not(:disabled),
-:root[data-mode="human"] #btnHuman:hover:not(:disabled) {
+:root[data-mode="light"] #btnAI:hover:not(:disabled),
+:root[data-mode="light"] #btnHuman:hover:not(:disabled) {
   background: #d06a3d !important;
   border-color: #d06a3d !important;
   box-shadow:
@@ -147,15 +147,15 @@ button {
   transform: translateY(-2px) !important;
 }
 
-:root[data-mode="human"] #btnAI:disabled,
-:root[data-mode="human"] #btnHuman:disabled {
+:root[data-mode="light"] #btnAI:disabled,
+:root[data-mode="light"] #btnHuman:disabled {
   opacity: 0.4 !important;
   box-shadow: none !important;
   transform: none !important;
 }
 
 // ─── Result button overrides (global scope) ───────────────────────────────────
-:root[data-mode="ai"] #btnContinue {
+:root[data-mode="dark"] #btnContinue {
   background: transparent !important;
   border: 2px solid rgba(0, 224, 255, 0.75) !important;
   color: #00E0FF !important;
@@ -164,7 +164,7 @@ button {
   transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s !important;
 }
 
-:root[data-mode="ai"] #btnContinue:hover:not(:disabled) {
+:root[data-mode="dark"] #btnContinue:hover:not(:disabled) {
   background: rgba(0, 224, 255, 0.1) !important;
   border-color: rgba(0, 224, 255, 1) !important;
   box-shadow:
@@ -174,7 +174,7 @@ button {
   transform: translateY(-2px) !important;
 }
 
-:root[data-mode="human"] #btnContinue {
+:root[data-mode="light"] #btnContinue {
   background: #E67E51 !important;
   border: 2px solid #E67E51 !important;
   color: #ffffff !important;
@@ -183,7 +183,7 @@ button {
   transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s !important;
 }
 
-:root[data-mode="human"] #btnContinue:hover:not(:disabled) {
+:root[data-mode="light"] #btnContinue:hover:not(:disabled) {
   background: #d06a3d !important;
   border-color: #d06a3d !important;
   box-shadow:

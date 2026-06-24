@@ -11,10 +11,10 @@
       <span class="header-human">Human</span>
     </h1>
 
-    <button class="mode-toggle" (click)="toggleMode()" [attr.aria-label]="isAIMode ? 'Human-Modus aktivieren' : 'AI-Modus aktivieren'">
-      <span class="toggle-indicator" [class.right]="!isAIMode"></span>
-      <span class="toggle-label" [class.active]="isAIMode">Dark</span>
-      <span class="toggle-label" [class.active]="!isAIMode">Light</span>
+    <button class="mode-toggle" (click)="toggleMode()" [attr.aria-label]="isDarkMode ? 'Light-Modus aktivieren' : 'Dark-Modus aktivieren'">
+      <span class="toggle-indicator" [class.right]="!isDarkMode"></span>
+      <span class="toggle-label" [class.active]="isDarkMode">Dark</span>
+      <span class="toggle-label" [class.active]="!isDarkMode">Light</span>
     </button>
   </div>
 

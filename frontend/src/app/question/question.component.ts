@@ -42,7 +42,7 @@ export class QuestionComponent implements OnInit {
         const isActive = n <= this.gameService.getCurrentLevel();
         const mode = document.documentElement.getAttribute('data-mode');
         if (isActive) {
-            return mode === 'human' ? '#E67E51' : '#00E0FF';
+            return mode === 'light' ? '#E67E51' : '#00E0FF';
         }
         return 'var(--seg-bg)';
     }
@@ -51,7 +51,7 @@ export class QuestionComponent implements OnInit {
         const isActive = n <= this.gameService.getCurrentLevel();
         if (isActive) {
             const mode = document.documentElement.getAttribute('data-mode');
-            return mode === 'human' ? '#ffffff' : '#001f25';
+            return mode === 'light' ? '#ffffff' : '#001f25';
         }
         return 'var(--text-muted)';
     }
@@ -103,9 +103,8 @@ export class QuestionComponent implements OnInit {
 
                 if (ext === '.txt') {
                     this.contentHTML = this.sanitizer.bypassSecurityTrustHtml('<span class="txt-loading">Lade Text...</span>');
-                    // Use relative URL via Angular proxy to avoid CORS (see proxy.conf.json)
-                    const proxyLink = link.replace(/^https?:\/\/[^\/]+/, '');
-                    this.http.get(proxyLink, { responseType: 'text' }).subscribe({
+                    
+                    this.http.get(link, { responseType: 'text' }).subscribe({
                         next: (text: string) => {
                             const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                             this.contentHTML = this.sanitizer.bypassSecurityTrustHtml(`<pre class="txt-content">${escaped}</pre>`);

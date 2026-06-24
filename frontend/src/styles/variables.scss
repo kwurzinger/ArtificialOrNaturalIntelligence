@@ -25,7 +25,7 @@
 
 // ─── AI / Tech mode (default) ────────────────────────────────────────────────
 :root,
-:root[data-mode="ai"] {
+:root[data-mode="dark"] {
   --bg-base:            #0F172A;
   --bg-surface:         #0d1516;
   --bg-surface-low:     #161d1f;
@@ -91,7 +91,7 @@
 }
 
 // ─── Human / Natural mode ────────────────────────────────────────────────────
-:root[data-mode="human"] {
+:root[data-mode="light"] {
   --bg-base:            #FDFCF8;
   --bg-surface:         #ffffff;
   --bg-surface-low:     #f5f3ee;

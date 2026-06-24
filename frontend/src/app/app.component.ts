@@ -10,7 +10,7 @@ import { GameService } from './services/game.service';
   providers: [MatSnackBar],
 })
 export class AppComponent implements OnInit {
-  isAIMode = true;
+  isDarkMode = true;
 
   constructor(private gameService: GameService, private displayService: DisplayService) {}
 
@@ -21,24 +21,24 @@ export class AppComponent implements OnInit {
     }
 
     const saved = localStorage.getItem('mode');
-    this.isAIMode = saved !== 'human';
+    this.isDarkMode = saved === 'dark';
     this.applyMode(false);
   }
 
   toggleMode(): void {
-    this.isAIMode = !this.isAIMode;
+    this.isDarkMode = !this.isDarkMode;
     this.applyMode(true);
-    localStorage.setItem('mode', this.isAIMode ? 'ai' : 'human');
+    localStorage.setItem('mode', this.isDarkMode ? 'dark' : 'light');
   }
 
   private applyMode(animate: boolean): void {
     const root = document.documentElement;
     const body = document.body;
 
-    root.setAttribute('data-mode', this.isAIMode ? 'ai' : 'human');
+    root.setAttribute('data-mode', this.isDarkMode ? 'dark' : 'light');
 
     if (animate) {
-      const cls = this.isAIMode ? 'mode-switch-ai' : 'mode-switch-human';
+      const cls = this.isDarkMode ? 'mode-switch-dark' : 'mode-switch-light';
       body.classList.add(cls);
       setTimeout(() => body.classList.remove(cls), 500);
     }

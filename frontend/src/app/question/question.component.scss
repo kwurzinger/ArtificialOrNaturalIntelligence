@@ -12,8 +12,8 @@
   transition: border-color 0.4s, border-radius 0.4s;
 }
 
-// AI mode: visible grid lines between segments
-:root[data-mode="ai"] .bar {
+// Dark mode: visible grid lines between segments
+:root[data-mode="dark"] .bar {
   border-radius: 2px;
 }
 
@@ -43,7 +43,7 @@
   transition: font-family 0.4s, color 0.4s;
 
   // AI mode: force all child text to use light color
-  :root[data-mode="ai"] & {
+  :root[data-mode="dark"] & {
     font-family: var(--font-ui);
     border-left: 2px solid var(--primary);
     padding-left: 1.5em;
@@ -64,7 +64,7 @@
   }
 
   // Human mode: editorial generous leading
-  :root[data-mode="human"] & {
+  :root[data-mode="light"] & {
     font-family: var(--font-ui);
     line-height: 1.9;
     max-width: 68ch;
@@ -81,7 +81,7 @@
   text-align: center;
   margin-top: 1em;
 
-  :root[data-mode="human"] & {
+  :root[data-mode="light"] & {
     font-family: var(--font-ui);
     font-style: italic;
   }
@@ -106,8 +106,8 @@
   cursor: pointer;
   transition: var(--transition-mode);
 
-  // AI mode: hollow with glowing border
-  :root[data-mode="ai"] & {
+  // Dark mode: hollow with glowing border
+  :root[data-mode="dark"] & {
     background: transparent;
     border: 2px solid rgba(0, 224, 255, 0.75);
     color: var(--btn-text);
@@ -125,7 +125,7 @@
   }
 
   // Human mode: solid terracotta fill
-  :root[data-mode="human"] & {
+  :root[data-mode="light"] & {
     background: var(--btn-bg);
     border: 1px solid var(--btn-border);
     color: var(--btn-text);

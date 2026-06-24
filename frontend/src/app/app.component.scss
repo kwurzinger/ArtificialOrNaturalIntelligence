@@ -22,11 +22,11 @@
   transition: box-shadow 0.4s;
 }
 
-:root[data-mode="ai"] #logo {
+:root[data-mode="dark"] #logo {
   box-shadow: 0 0 12px rgba(0, 224, 255, 0.4);
 }
 
-:root[data-mode="human"] #logo {
+:root[data-mode="light"] #logo {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -229,7 +229,7 @@
   box-shadow: var(--shadow-btn);
   transition: var(--transition-mode);
 
-  :root[data-mode="human"] & {
+  :root[data-mode="light"] & {
     background: var(--btn-bg);
     border-radius: 12px;
   }

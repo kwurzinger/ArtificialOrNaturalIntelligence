@@ -70,8 +70,7 @@ export class ResultComponent implements OnInit {
 
       if (ext === '.txt') {
         pending++;
-        const proxyLink = link.replace(/^https?:\/\/[^/]+/, '');
-        this.http.get(proxyLink, { responseType: 'text' }).subscribe({
+        this.http.get(link, { responseType: 'text' }).subscribe({
           next: (text: string) => {
             const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             const contentHTML = `<pre class="txt-content">${escaped}</pre>`;

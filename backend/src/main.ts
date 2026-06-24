@@ -24,14 +24,14 @@ async function bootstrap() {
     throw new Error(`CONTENT_DIR ist kein Verzeichnis: ${staticPath}`);
   }
 
-  app.useStaticAssets(staticPath, { prefix: staticEndpoint });
-
   // CORS
   app.enableCors({
     origin: angularURL,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   });
+
+  app.useStaticAssets(staticPath, { prefix: staticEndpoint });
 
   // Swagger
   const swaggerConfig = new DocumentBuilder()

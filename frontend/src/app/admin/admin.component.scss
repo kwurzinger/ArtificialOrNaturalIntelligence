@@ -111,13 +111,13 @@ h3 {
   outline: none;
   transition: border-color 0.2s, background 0.4s;
 
-  :root[data-mode="ai"] & {
+  :root[data-mode="dark"] & {
     border: none;
     border-bottom: 1px solid var(--input-border);
     border-radius: 0;
   }
 
-  :root[data-mode="human"] & {
+  :root[data-mode="light"] & {
     border: 1px solid var(--input-border);
     border-radius: var(--radius-md);
     padding: 0.55em 0.75em;
@@ -129,10 +129,10 @@ h3 {
 .form-field textarea:focus {
   border-color: var(--input-focus);
 
-  :root[data-mode="ai"] & {
+  :root[data-mode="dark"] & {
     box-shadow: 0 2px 0 var(--primary);
   }
-  :root[data-mode="human"] & {
+  :root[data-mode="light"] & {
     box-shadow: 0 0 0 3px rgba(230, 126, 81, 0.2);
   }
 }
@@ -189,7 +189,7 @@ button {
   border-color: var(--error-color);
   color: var(--error-color);
 
-  :root[data-mode="human"] & {
+  :root[data-mode="light"] & {
     background: var(--error-color);
     color: #fff;
     border-color: var(--error-color);
