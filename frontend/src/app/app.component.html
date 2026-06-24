@@ -1,7 +1,21 @@
 <div id="rootContent">
-  <div *ngIf="!isAdminView()" class="toolbar" role="banner">
-    <img id="logo" src="../assets/FHJ_Logo.png" width="300px" height="150px"/>
-    <h1 id="header">AI or Human</h1>
+  <div class="toolbar" role="banner">
+    <div id="logo-block">
+      <img id="logo" src="../assets/Logo1.png" width="80px" height="80px"/>
+      <span id="logo-text">ArtificialOrNaturalIntelligence</span>
+    </div>
+
+    <h1 id="header">
+      <span class="header-ai">AI</span>
+      <span class="header-sep"> or </span>
+      <span class="header-human">Human</span>
+    </h1>
+
+    <button class="mode-toggle" (click)="toggleMode()" [attr.aria-label]="isAIMode ? 'Human-Modus aktivieren' : 'AI-Modus aktivieren'">
+      <span class="toggle-indicator" [class.right]="!isAIMode"></span>
+      <span class="toggle-label" [class.active]="isAIMode">Dark</span>
+      <span class="toggle-label" [class.active]="!isAIMode">Light</span>
+    </button>
   </div>
 
   <div *ngIf="isQuestionView()" class="main">
@@ -16,13 +30,18 @@
     <app-admin></app-admin>
   </div>
 
-  <div *ngIf="isFinishView()" class="main">
-    <div align="center">
-      <p id="finishQuizText">Glückwunsch!! Sie haben das Quiz beendet.</p>
-      <h1>Resultate vom Quiz</h1>
-      <div *ngFor="let level of levels" style="font-size: 1.4em;">Level {{level}}: {{getLevelResult(level)}}</div>
+  <div *ngIf="isFinishView()" class="main finish-view">
+    <div class="finish-inner">
+      <p class="finish-label">Quiz abgeschlossen</p>
+      <h1 class="finish-title">Resultate</h1>
+      <div class="level-results">
+        <div *ngFor="let level of levels" class="level-row">
+          <span class="level-name">Level {{level}}</span>
+          <span class="level-value">{{getLevelResult(level)}}</span>
+        </div>
+      </div>
       <p id="score">Score: {{getScore()}}</p>
-      <button id="btnRestart" mat-raised-button (click)="restartGame();">Neustart</button>
+      <button id="btnRestart" (click)="restartGame();">Neustart</button>
     </div>
   </div>
 </div>

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0",
+    "start": "node --no-deprecation node_modules/@angular/cli/bin/ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -22,6 +22,7 @@
     "@angular/router": "^16.1.0",
     "@babylonjs/materials": "^6.5.0",
     "angular": "^1.8.3",
+    "bootstrap": "^5.3.8",
     "linked-list-typescript": "^1.0.15",
     "rxjs": "~7.8.0",
     "sweetalert": "^2.1.2",

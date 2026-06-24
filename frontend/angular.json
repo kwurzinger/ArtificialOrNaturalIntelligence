@@ -30,6 +30,9 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            },
             "allowedCommonJsDependencies": [
               "babylonjs-materials"
             ],
@@ -52,8 +55,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                    "maximumWarning": "8kb",
+                    "maximumError": "16kb"
                 }
               ],
               "outputHashing": "all"
@@ -71,6 +74,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "browserTarget": "frontend:build:production"
@@ -105,6 +111,9 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            },
             "scripts": []
           }
         }

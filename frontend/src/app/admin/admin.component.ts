@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { forkJoin, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 import { AdminService, AdminUser, ContentAdminItem } from '../services/admin.service';
 import { ContentService } from '../services/content.service';
 import { GameService } from '../services/game.service';
@@ -27,6 +28,7 @@ export class AdminComponent implements OnInit {
   newPassword: string = '';
 
   contentItems: ContentAdminItem[] = [];
+  txtCache: Map<string, string> = new Map();
   selectedLevel: number = 1;
   selectedCreator: string = 'AI';
   advisoryText: string = '';
@@ -37,6 +39,7 @@ export class AdminComponent implements OnInit {
     private contentService: ContentService,
     private gameService: GameService,
     private sanitizer: DomSanitizer,
+    private http: HttpClient,
   ) {}
 
   ngOnInit(): void {
@@ -269,6 +272,20 @@ export class AdminComponent implements OnInit {
       html = `<audio src="${content_link}" controls style="display:block;width:100%;max-width:420px;margin:0 auto;"></audio>`;
     } else if (['.mp4', '.mkv', '.mov', '.avi', '.wmv', '.webm'].includes(fileEnding)) {
       html = `<video src="${content_link}" controls style="display:block;width:100%;max-width:420px;height:auto;margin:0 auto;"></video>`;
+    } else if (fileEnding === '.txt') {
+      if (this.txtCache.has(content_link)) {
+        html = `<pre class="txt-content">${this.txtCache.get(content_link)}</pre>`;
+      } else {
+        const proxyLink = content_link.replace(/^https?:\/\/[^\/]+/, '');
+        this.http.get(proxyLink, { responseType: 'text' }).subscribe({
+          next: (text: string) => {
+            const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            this.txtCache.set(content_link, escaped);
+          },
+          error: () => this.txtCache.set(content_link, '(Fehler beim Laden)')
+        });
+        html = '<span class="txt-loading">Lade Text...</span>';
+      }
     } else {
       html = `<iframe src="${content_link}" style="display:block;width:100%;max-width:420px;height:160px;margin:0 auto;border:0;"></iframe>`;
     }

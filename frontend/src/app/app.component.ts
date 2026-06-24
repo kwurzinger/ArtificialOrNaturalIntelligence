@@ -10,13 +10,37 @@ import { GameService } from './services/game.service';
   providers: [MatSnackBar],
 })
 export class AppComponent implements OnInit {
-  constructor(private gameService: GameService, private displayService: DisplayService){}
+  isAIMode = true;
+
+  constructor(private gameService: GameService, private displayService: DisplayService) {}
 
   ngOnInit(): void {
     const path = window.location.pathname.replace(/\/$/, '');
-
     if (path === '/admin') {
       this.displayService.setView('Admin');
+    }
+
+    const saved = localStorage.getItem('mode');
+    this.isAIMode = saved !== 'human';
+    this.applyMode(false);
+  }
+
+  toggleMode(): void {
+    this.isAIMode = !this.isAIMode;
+    this.applyMode(true);
+    localStorage.setItem('mode', this.isAIMode ? 'ai' : 'human');
+  }
+
+  private applyMode(animate: boolean): void {
+    const root = document.documentElement;
+    const body = document.body;
+
+    root.setAttribute('data-mode', this.isAIMode ? 'ai' : 'human');
+
+    if (animate) {
+      const cls = this.isAIMode ? 'mode-switch-ai' : 'mode-switch-human';
+      body.classList.add(cls);
+      setTimeout(() => body.classList.remove(cls), 500);
     }
   }
 
@@ -36,23 +60,8 @@ export class AppComponent implements OnInit {
     window.location.reload();
   }
 
-  changeView(newView: string): void {
-    this.displayService.setView(newView);
-  }
-
-  isQuestionView(): boolean {
-    return this.displayService.getView() == "Question";
-  }
-
-  isResultView(): boolean {
-    return this.displayService.getView() == "Result";
-  }
-
-  isFinishView(): boolean {
-    return this.displayService.getView() == "Finish";
-  }
-
-  isAdminView(): boolean {
-    return this.displayService.getView() == "Admin";
-  }
+  isQuestionView(): boolean { return this.displayService.getView() == 'Question'; }
+  isResultView(): boolean   { return this.displayService.getView() == 'Result'; }
+  isFinishView(): boolean   { return this.displayService.getView() == 'Finish'; }
+  isAdminView(): boolean    { return this.displayService.getView() == 'Admin'; }
 }
