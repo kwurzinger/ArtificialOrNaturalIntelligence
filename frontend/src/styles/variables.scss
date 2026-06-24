@@ -1,2 +1,156 @@
-$mainBgColor: black;
-$mainTextColor: #ccc;
+// ─── Google Fonts import ─────────────────────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+
+// ─── Shared tokens ───────────────────────────────────────────────────────────
+:root {
+  --spacing-base: 8px;
+  --container-max: 1440px;
+  --gutter: 24px;
+  --margin-desktop: 64px;
+  --margin-mobile: 20px;
+
+  --radius-sm:   0.125rem;
+  --radius-md:   0.375rem;
+  --radius-lg:   0.5rem;
+  --radius-xl:   0.75rem;
+  --radius-full: 9999px;
+
+  --font-ui:    'Inter', system-ui, sans-serif;
+  --font-tech:  'JetBrains Mono', monospace;
+  --font-human: 'Playfair Display', Georgia, serif;
+
+  // default = AI mode
+  --mode: 'ai';
+}
+
+// ─── AI / Tech mode (default) ────────────────────────────────────────────────
+:root,
+:root[data-mode="ai"] {
+  --bg-base:            #0F172A;
+  --bg-surface:         #0d1516;
+  --bg-surface-low:     #161d1f;
+  --bg-surface-mid:     #1a2123;
+  --bg-surface-high:    #242b2d;
+  --bg-surface-highest: #2f3638;
+  --bg-card:            rgba(13, 21, 22, 0.7);
+
+  --primary:            #00E0FF;
+  --primary-dim:        #00daf8;
+  --primary-container:  #00363f;
+  --on-primary:         #001f25;
+
+  --secondary:          #ffb598;
+  --tertiary:           #cef780;
+
+  --text-primary:       #dce4e6;
+  --text-secondary:     #bac9cd;
+  --text-muted:         #859397;
+  --text-on-brand:      #001f25;
+
+  --border-color:       rgba(255,255,255,0.065);
+  --border-color-strong: rgba(0, 224, 255, 0.35);
+  --outline:            #859397;
+  --outline-variant:    #3b494c;
+
+  --toolbar-bg:         rgba(13, 21, 22, 0.92);
+  --toolbar-border:     rgba(0, 224, 255, 0.2);
+
+  --input-bg:           transparent;
+  --input-border:       #3b494c;
+  --input-focus:        #00E0FF;
+
+  --success-color:      #cef780;
+  --error-color:        #ffb4ab;
+
+  --btn-bg:             transparent;
+  --btn-border:         #00E0FF;
+  --btn-text:           #00E0FF;
+  --btn-radius:         2px;
+
+  --card-radius:        0px;
+  --card-shadow:        0 0 0 1px rgba(255,255,255,0.065),
+                        inset 0 0 40px rgba(0, 224, 255, 0.03);
+  --card-backdrop:      blur(20px);
+
+  --seg-bg:             #1a2123;
+  --seg-active:         #00E0FF;
+  --seg-active-text:    #001f25;
+
+  --shadow-btn:         0 0 12px rgba(0, 224, 255, 0.3);
+  --shadow-card:        0 0 0 1px rgba(0,224,255,0.08);
+
+  --transition-mode:    all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --display-font:       var(--font-tech);
+  --heading-font:       var(--font-tech);
+  --body-font:          var(--font-ui);
+
+  --display-size:       48px;
+  --display-weight:     700;
+  --display-spacing:    -0.05em;
+}
+
+// ─── Human / Natural mode ────────────────────────────────────────────────────
+:root[data-mode="human"] {
+  --bg-base:            #FDFCF8;
+  --bg-surface:         #ffffff;
+  --bg-surface-low:     #f5f3ee;
+  --bg-surface-mid:     #ede9e1;
+  --bg-surface-high:    #e2ddd4;
+  --bg-surface-highest: #d5cfc5;
+  --bg-card:            #ffffff;
+
+  --primary:            #E67E51;
+  --primary-dim:        #d06a3d;
+  --primary-container:  #fde8de;
+  --on-primary:         #ffffff;
+
+  --secondary:          #6B8E23;
+  --tertiary:           #8B6914;
+
+  --text-primary:       #2c2825;
+  --text-secondary:     #5a534a;
+  --text-muted:         #8a8078;
+  --text-on-brand:      #ffffff;
+
+  --border-color:       rgba(0,0,0,0.08);
+  --border-color-strong: rgba(230, 126, 81, 0.4);
+  --outline:            #9e958c;
+  --outline-variant:    #d5cfc5;
+
+  --toolbar-bg:         #ffffff;
+  --toolbar-border:     rgba(230, 126, 81, 0.2);
+
+  --input-bg:           #ffffff;
+  --input-border:       #d5cfc5;
+  --input-focus:        #E67E51;
+
+  --success-color:      #6B8E23;
+  --error-color:        #c0392b;
+
+  --btn-bg:             #E67E51;
+  --btn-border:         #E67E51;
+  --btn-text:           #ffffff;
+  --btn-radius:         12px;
+
+  --card-radius:        12px;
+  --card-shadow:        0px 4px 20px rgba(0,0,0,0.07);
+  --card-backdrop:      none;
+
+  --seg-bg:             #ede9e1;
+  --seg-active:         #E67E51;
+  --seg-active-text:    #ffffff;
+
+  --shadow-btn:         0 4px 14px rgba(230, 126, 81, 0.3);
+  --shadow-card:        0px 4px 20px rgba(0,0,0,0.05);
+
+  --transition-mode:    all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --display-font:       var(--font-human);
+  --heading-font:       var(--font-human);
+  --body-font:          var(--font-ui);
+
+  --display-size:       56px;
+  --display-weight:     600;
+  --display-spacing:    0em;
+}

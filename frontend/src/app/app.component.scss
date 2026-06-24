@@ -1,69 +1,245 @@
-$base-color: rgb(61, 186, 0);
+@import 'variables';
 
-#logo {
+// ─── Logo block ──────────────────────────────────────────────────────────────
+#logo-block {
   position: absolute;
+  left: 1.2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 0;
 }
 
+#logo {
+  display: block;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 50%;
+  // The logo has a white background - show it as-is in both modes
+  // In AI mode we add a subtle glow to match the dark theme
+  transition: box-shadow 0.4s;
+}
+
+:root[data-mode="ai"] #logo {
+  box-shadow: 0 0 12px rgba(0, 224, 255, 0.4);
+}
+
+:root[data-mode="human"] #logo {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+#logo-text {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  text-align: center;
+  transition: color 0.4s;
+}
+
+// ─── Toolbar ─────────────────────────────────────────────────────────────────
 .toolbar {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 8em;
+  height: 110px;
   display: flex;
   align-items: center;
-  background-color: $base-color;
-  font-weight: 400;
-  color: white;
-  margin-bottom: 30px;
+  justify-content: center;
+  background: var(--toolbar-bg);
+  border-bottom: 1px solid var(--toolbar-border);
+  backdrop-filter: var(--card-backdrop);
+  -webkit-backdrop-filter: var(--card-backdrop);
+  z-index: 100;
+  transition: background 0.4s, border-color 0.4s;
+}
 
-  #header{
-    margin-left: 40%;
-    font-size: 4em;
+// ─── Header title ─────────────────────────────────────────────────────────────
+#header {
+  font-family: var(--display-font);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-spacing);
+  line-height: 1.1;
+  margin: 0;
+  transition: font-family 0.4s, color 0.4s;
+}
+
+.header-ai {
+  color: var(--primary);
+}
+
+.header-sep {
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 0.65em;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  padding: 0 0.3em;
+}
+
+.header-human {
+  color: var(--text-primary);
+}
+
+// ─── Mode toggle (pill) ───────────────────────────────────────────────────────
+.mode-toggle {
+  position: absolute;
+  right: 1.5em;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bg-surface-high);
+  border: 1px solid var(--border-color-strong);
+  border-radius: var(--radius-full);
+  padding: 4px;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+
+  &:hover {
+    border-color: var(--primary);
   }
 }
 
+.toggle-label {
+  font-family: var(--font-tech);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  transition: color 0.3s;
+  position: relative;
+  z-index: 1;
+
+  &.active {
+    color: var(--text-on-brand);
+  }
+}
+
+.toggle-indicator {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  background: var(--primary);
+  border-radius: var(--radius-full);
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s;
+
+  &.right {
+    left: calc(50%);
+  }
+}
+
+// ─── Main content area ────────────────────────────────────────────────────────
 .main {
-  margin-top: 15%;
+  margin-top: 130px;
+  transition: margin 0.3s;
 }
 
-#finishQuizText {
-  font-size: 1.5em;
-  margin-top: 6em;
+// ─── Finish screen ────────────────────────────────────────────────────────────
+.finish-view {
+  display: flex;
+  justify-content: center;
+  padding: 3em 0;
 }
 
-h1 {
-  font-size: 2.3em;
+.finish-inner {
+  text-align: center;
+  max-width: 540px;
+}
+
+.finish-label {
+  font-family: var(--font-tech);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.5em;
+}
+
+.finish-title {
+  font-family: var(--display-font);
+  font-size: var(--display-size);
+  font-weight: var(--display-weight);
+  color: var(--text-primary);
+  margin-bottom: 1.5em;
+  line-height: 1.1;
+}
+
+.level-results {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color-strong);
+  border-radius: var(--card-radius);
+  backdrop-filter: var(--card-backdrop);
+  padding: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.level-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6em 0;
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--font-ui);
+  color: var(--text-primary);
+
+  &:last-child { border-bottom: none; }
+}
+
+.level-name {
+  font-family: var(--font-tech);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.level-value {
+  font-weight: 600;
+  color: var(--primary);
 }
 
 #score {
-  font-size: 2em;
-  font-weight: bold;
+  font-family: var(--font-tech);
+  font-size: 1.8em;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0.5em 0 1.5em;
+  letter-spacing: -0.02em;
 }
 
 #btnRestart {
-  background-color: $base-color;
-  background: linear-gradient(rgb(82, 173, 3), rgb(35, 165, 0 ), rgb(47, 108, 31));
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 2.5em;
-  border-radius: 20em;
-  margin: 20px 10px 20px;
-  width: 6em;
-  height: 1.5em;
-}
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  color: var(--btn-text);
+  font-family: var(--font-tech);
+  font-size: 0.95em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--btn-radius);
+  padding: 0.8em 2.5em;
+  box-shadow: var(--shadow-btn);
+  transition: var(--transition-mode);
 
-mat-form-field {
-  width: 25%;
-}
+  :root[data-mode="human"] & {
+    background: var(--btn-bg);
+    border-radius: 12px;
+  }
 
-mat-option {
-  font-family: Roboto;
+  &:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
 }
 
 .admin-main {
-  margin-top: 0;
+  margin-top: 130px;
 }

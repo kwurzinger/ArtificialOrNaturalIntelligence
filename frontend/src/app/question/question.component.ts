@@ -37,7 +37,21 @@ export class QuestionComponent implements OnInit {
     }
 
     getBg(n: number): string {
-        return n <= this.gameService.getCurrentLevel() ? '#33b400' : '#ffffff';
+        const isActive = n <= this.gameService.getCurrentLevel();
+        const mode = document.documentElement.getAttribute('data-mode');
+        if (isActive) {
+            return mode === 'human' ? '#E67E51' : '#00E0FF';
+        }
+        return 'var(--seg-bg)';
+    }
+
+    getSegTextColor(n: number): string {
+        const isActive = n <= this.gameService.getCurrentLevel();
+        if (isActive) {
+            const mode = document.documentElement.getAttribute('data-mode');
+            return mode === 'human' ? '#ffffff' : '#001f25';
+        }
+        return 'var(--text-muted)';
     }
 
     startNewLevel(): void {
@@ -51,22 +65,29 @@ export class QuestionComponent implements OnInit {
                 this.loadContentForQuestion();
             },
             error: (err) => {
-                this.contentIdsForLevel = [];
-                document.getElementById("content").innerHTML = `<h1>${err.message}</h1>`;
+                const el = document.getElementById("content");
+                if (el) el.innerHTML = `<h1>${err.message}</h1>`;
                 this.buttonsDisabled = true;
             }
         });
     }
-    
+
+    ngOnInit(): void {
+        this.startNewLevel();
+    }
+
     loadContentForQuestion(): void {
-        if (this.contentIdsForLevel.length === 0 || this.numberOfDrawnQuestionsInLevel === this.gameService.getMaxQuestionsPerLevel()) {
-            this.displayService.setView("Result");
+        if (this.numberOfDrawnQuestionsInLevel >= this.gameService.getMaxQuestionsPerLevel()
+            || this.contentIdsForLevel.length === 0) {
+            this.displayService.setView('Result');
             return;
         }
 
         const randomIndex = Math.floor(Math.random() * this.contentIdsForLevel.length);
         const randomContentId = this.contentIdsForLevel[randomIndex];
+        this.contentIdsForLevel.splice(randomIndex, 1);
 
+        this.buttonsDisabled = true;
         this.contentService.getContentById(randomContentId).subscribe({
             next: content => {
                 this.gameService.addCorrectAnswerForLevel(content.content_creator);
@@ -74,14 +95,10 @@ export class QuestionComponent implements OnInit {
                 this.contentHTML = this.sanitizer.bypassSecurityTrustHtml(html);
                 this.hintText = content.content_advisory_text;
                 this.gameService.addAskedQuestionForLevel(content.content_link);
-                this.contentIdsForLevel.splice(randomIndex, 1)
+                this.contentIdsForLevel.splice(randomIndex, 1);
                 this.numberOfDrawnQuestionsInLevel++;
+                this.buttonsDisabled = false;
             }
         });
-    }
-
-    ngOnInit(): void {
-        this.buttonsDisabled = false;
-        this.startNewLevel();
     }
 }

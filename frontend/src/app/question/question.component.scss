@@ -1,9 +1,20 @@
+@import 'variables';
+
+// ─── Level progress bar ───────────────────────────────────────────────────────
 .bar {
-  margin-top: 10em;
+  margin-top: 2em;
   display: flex;
-  border: 1px solid #ffff;
-  height: 32px;
+  border: 1px solid var(--border-color-strong);
+  border-radius: var(--card-radius);
+  height: 36px;
   overflow: hidden;
+  background: var(--bg-surface-low);
+  transition: border-color 0.4s, border-radius 0.4s;
+}
+
+// AI mode: visible grid lines between segments
+:root[data-mode="ai"] .bar {
+  border-radius: 2px;
 }
 
 .seg {
@@ -11,32 +22,108 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffff;
+  background: var(--seg-bg);
+  color: var(--text-muted);
+  font-family: var(--font-tech);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-right: 1px solid var(--border-color);
+  transition: background 0.3s, color 0.3s;
+
+  &:last-child { border-right: none; }
 }
 
-p {
-  font-size: 1.2em;
-}
-
-.seg:last-child {
-  border-right: 0;
-}
-
+// ─── Content area ─────────────────────────────────────────────────────────────
 #content {
-  margin-top: 2em;
+  margin-top: 2.5em;
+  color: var(--text-primary);
+  font-family: var(--body-font);
+  line-height: 1.75;
+  font-size: 1.1em;
+  transition: font-family 0.4s, color 0.4s;
+
+  // AI mode: monospace feel for content
+  :root[data-mode="ai"] & {
+    font-family: var(--font-ui);
+    border-left: 2px solid var(--primary);
+    padding-left: 1.5em;
+    opacity: 0.9;
+  }
+
+  // Human mode: editorial generous leading
+  :root[data-mode="human"] & {
+    font-family: var(--font-ui);
+    line-height: 1.9;
+    max-width: 68ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+#hint {
+  font-family: var(--font-tech);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 1em;
+
+  :root[data-mode="human"] & {
+    font-family: var(--font-ui);
+    font-style: italic;
+  }
+}
+
+// ─── Buttons ──────────────────────────────────────────────────────────────────
+.btn-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 1.5em;
+  margin-top: 2.5em;
 }
 
 #btnAI, #btnHuman {
-  background-color: rgb(61, 186, 0);
-  background: linear-gradient(rgb(82, 173, 3), rgb(35, 165, 0 ), rgb(47, 108, 31));
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 2.5em;
-  border-radius: 20em;
-  margin: 20px 10px 20px;
-  width: 5em;
-  height: 1.5em;
+  font-family: var(--font-tech);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.85em 3em;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+  transition: var(--transition-mode);
+
+  // AI mode: hollow with glowing border
+  :root[data-mode="ai"] & {
+    background: transparent;
+    border: 1px solid var(--btn-border);
+    color: var(--btn-text);
+    box-shadow: var(--shadow-btn), inset 0 0 20px rgba(0,224,255,0.04);
+
+    &:hover:not(:disabled) {
+      background: rgba(0, 224, 255, 0.08);
+      box-shadow: 0 0 20px rgba(0, 224, 255, 0.5);
+    }
+  }
+
+  // Human mode: solid terracotta fill
+  :root[data-mode="human"] & {
+    background: var(--btn-bg);
+    border: 1px solid var(--btn-border);
+    color: var(--btn-text);
+    box-shadow: var(--shadow-btn);
+    border-radius: 12px;
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 6px 20px rgba(230, 126, 81, 0.45);
+      transform: translateY(-2px);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
 }
