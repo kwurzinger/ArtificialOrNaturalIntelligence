@@ -22,26 +22,19 @@ export class AppComponent implements OnInit {
 
     const saved = localStorage.getItem('mode');
     this.isDarkMode = saved === 'dark';
-    this.applyMode(false);
+    this.applyMode();
   }
 
   toggleMode(): void {
     this.isDarkMode = !this.isDarkMode;
-    this.applyMode(true);
+    this.applyMode();
     localStorage.setItem('mode', this.isDarkMode ? 'dark' : 'light');
   }
 
-  private applyMode(animate: boolean): void {
+  private applyMode(): void {
     const root = document.documentElement;
-    const body = document.body;
 
     root.setAttribute('data-mode', this.isDarkMode ? 'dark' : 'light');
-
-    if (animate) {
-      const cls = this.isDarkMode ? 'mode-switch-dark' : 'mode-switch-light';
-      body.classList.add(cls);
-      setTimeout(() => body.classList.remove(cls), 500);
-    }
   }
 
   get levels(): number[] {

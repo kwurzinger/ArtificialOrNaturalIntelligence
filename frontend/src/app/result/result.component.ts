@@ -34,9 +34,9 @@ export class ResultComponent implements OnInit {
     }
   }
 
-  private buildResultHTML(contentHTML: string, isCorrect: boolean): string {
+  private buildResultHTML(contentHTML: string, userguess: string, isCorrect: boolean): string {
     const colorClass = isCorrect ? 'answer-correct' : 'answer-wrong';
-    const label = `Deine Antwort: ${isCorrect ? 'Richtig' : 'Falsch'}`;
+    const label = `Deine Antwort "${userguess}" ist ${isCorrect ? 'Richtig' : 'Falsch'}`;
     return `
       <div class="result-row">
         <div class="result-content">${contentHTML}</div>
@@ -74,20 +74,20 @@ export class ResultComponent implements OnInit {
           next: (text: string) => {
             const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             const contentHTML = `<pre class="txt-content">${escaped}</pre>`;
-            this.resultsHTML[i] = this.sanitizer.bypassSecurityTrustHtml(this.buildResultHTML(contentHTML, isCorrect));
+            this.resultsHTML[i] = this.sanitizer.bypassSecurityTrustHtml(this.buildResultHTML(contentHTML, userAnswers[i], isCorrect));
             pending--;
             if (pending === 0) this.gameService.addLevelResult(numberOfCorrectAnswers + '/' + askedQuestions.length);
           },
           error: () => {
             const contentHTML = this.contentService.renderContentFromLink(link);
-            this.resultsHTML[i] = this.sanitizer.bypassSecurityTrustHtml(this.buildResultHTML(contentHTML, isCorrect));
+            this.resultsHTML[i] = this.sanitizer.bypassSecurityTrustHtml(this.buildResultHTML(contentHTML, userAnswers[i], isCorrect));
             pending--;
             if (pending === 0) this.gameService.addLevelResult(numberOfCorrectAnswers + '/' + askedQuestions.length);
           }
         });
       } else {
         const contentHTML = this.contentService.renderContentFromLink(link);
-        this.resultsHTML[i] = this.sanitizer.bypassSecurityTrustHtml(this.buildResultHTML(contentHTML, isCorrect));
+        this.resultsHTML[i] = this.sanitizer.bypassSecurityTrustHtml(this.buildResultHTML(contentHTML, userAnswers[i], isCorrect));
       }
     }
 

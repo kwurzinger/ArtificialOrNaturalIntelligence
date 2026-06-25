@@ -42,7 +42,7 @@
   font-size: 1.1em;
   transition: font-family 0.4s, color 0.4s;
 
-  // AI mode: force all child text to use light color
+  // Dark mode: force all child text to use light color
   :root[data-mode="dark"] & {
     font-family: var(--font-ui);
     border-left: 2px solid var(--primary);
@@ -63,7 +63,7 @@
     }
   }
 
-  // Human mode: editorial generous leading
+  // Light mode: editorial generous leading
   :root[data-mode="light"] & {
     font-family: var(--font-ui);
     line-height: 1.9;
