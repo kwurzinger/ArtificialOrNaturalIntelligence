@@ -19,17 +19,23 @@ export class ContentService {
   }
 
   async getContentById(id: number): Promise<Content> {
-    return this.contentRepository.findOne({select: ['content_link', 'content_creator', 'content_advisory_text'], where: {content_id: id}});
-  }
+    const content = await this.contentRepository.findOne({
+      select: ['content_link', 'content_creator', 'content_advisory_text'],
+      where: { content_id: id },
+    });
 
-  async removeFile(filename: string) {
-    if (filename) {
-      try {
-        await unlink(join(this.appConfig.staticDir, filename));
-      } catch (error) {
-        console.error(error)
-      }
+    if (!content) {
+      return null;
     }
+
+    const baseURL = this.appConfig.baseURL
+    const port = this.appConfig.port
+    const staticEndpoint = this.appConfig.staticEndpoint
+
+    return {
+      ...content,
+      content_link: `${baseURL}:${port}${staticEndpoint}/${content.content_link}`,
+    };
   }
 
   async addContent(dto: ContentCreateDto, file: Express.Multer.File): Promise<Content> {
@@ -53,8 +59,24 @@ export class ContentService {
       throw new BadRequestException("Ungültiger Creator! (Entweder AI oder Human)");
     }
 
-    dto.content_link = `${baseURL}:${port}${staticEndpoint}/${file.filename}`;
-    return this.contentRepository.save(dto);
+    dto.content_link = file.filename;
+
+    const saved = await this.contentRepository.save(dto);
+
+    return {
+      ...saved,
+      content_link: `${baseURL}:${port}${staticEndpoint}/${saved.content_link}`,
+    };
+  }
+
+  async removeFile(filename: string) {
+    if (filename) {
+      try {
+        await unlink(join(this.appConfig.staticDir, filename));
+      } catch (error) {
+        console.error(error)
+      }
+    }
   }
 
   async removeContentById(id: number): Promise<DeleteResult> {
