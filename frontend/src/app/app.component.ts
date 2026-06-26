@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const path = window.location.pathname.replace(/\/$/, '');
-    if (path === '/admin') {
+    if (path.endsWith('/admin')) {
       this.displayService.setView('Admin');
     }
 
