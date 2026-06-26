@@ -30,7 +30,7 @@ jobs:
         working-directory: frontend
         run: |
           npm ci
-          npm run build
+          npm run build -- --base-href /artificialornaturalintelligence/
 
       - name: Prepare release variables
         run: |
@@ -41,13 +41,21 @@ jobs:
 
       - name: Package build artifacts
         run: |
-          mkdir -p release/backend release/frontend
+          mkdir -p release/backend
+          mkdir -p release/frontend/artificialornaturalintelligence
 
           cp -a backend/dist release/backend/
           cp backend/package.json release/backend/
           cp backend/package-lock.json release/backend/
 
-          cp -a frontend/dist/. release/frontend/
+          FRONTEND_DIST_DIR=$(find frontend/dist -mindepth 1 -maxdepth 1 -type d | head -n 1)
+
+          if [ -z "$FRONTEND_DIST_DIR" ]; then
+            echo "No frontend dist directory found."
+            exit 1
+          fi
+
+          cp -a "$FRONTEND_DIST_DIR"/. release/frontend/artificialornaturalintelligence/
 
           cp INSTALL.md release/
 
