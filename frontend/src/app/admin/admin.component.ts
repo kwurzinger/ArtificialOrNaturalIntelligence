@@ -276,8 +276,7 @@ export class AdminComponent implements OnInit {
       if (this.txtCache.has(content_link)) {
         html = `<pre class="txt-content">${this.txtCache.get(content_link)}</pre>`;
       } else {
-        const proxyLink = content_link.replace(/^https?:\/\/[^\/]+/, '');
-        this.http.get(proxyLink, { responseType: 'text' }).subscribe({
+        this.http.get(content_link, { responseType: 'text' }).subscribe({
           next: (text: string) => {
             const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             this.txtCache.set(content_link, escaped);
