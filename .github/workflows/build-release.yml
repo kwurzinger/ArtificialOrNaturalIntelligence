@@ -57,7 +57,8 @@ jobs:
 
           cp -a "$FRONTEND_DIST_DIR"/. release/frontend/artificialornaturalintelligence/
 
-          cp frontend/nginx.conf release/frontend/artificialornaturalintelligence/
+          cp frontend/nginx.conf release/nginx.sample.conf
+          cp frontend/.htaccess release/frontend/artificialornaturalintelligence/
 
           cp INSTALL.md release/
 

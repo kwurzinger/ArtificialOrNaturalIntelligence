@@ -20,10 +20,24 @@ nicht mit dem Backend kommunizieren kann.
 
 ```bash
 cd frontend/prod
-cp -r frontend/prod /usr/share/nginx/html/ # Beispiel für nginx, je nach Webserver muss der Zielpfad entsprechend angepasst werden
+cp -r frontend/prod /usr/share/nginx/html/ # Beispiel für Nginx, je nach Webserver muss der Zielpfad entsprechend angepasst werden
 ```
 
-Dann den Webserver nginx und PostgreSQL-Server starten. Die vorgeschlagene Konfiguration in `.env.example` entspricht der Standardkonfiguration des PostgreSQL-Servers sowie von Backend und Frontend.
+Danach muss der Webserver so konfiguriert werden, dass der SPA Redirect von /admin auf die Angular App funktioniert (für den Adminbereich).
+Ansonsten kommt ein HTTP 404 Not Found Error, da der Webserver logischerweise kein Verzeichnis "admin" finden wird.
+
+Dazu anhand der beiliegenden Sample Konfiguration nginx.sample.conf den Nginx Server entsprechend konfigurieren.
+
+Falls Apache als Webserver verwendet wird, dann muss "Allow Override All" erlaubt sein und folgende Module müssen geladen werden:
+
+```bash
+LoadModule rewrite_module modules/mod_rewrite.so
+LoadModule headers_module modules/mod_headers.so
+```
+
+Dies bewirkt, dass die beiligende .htaccess Konfiguration funktioniert, wo das Redirect bereits korrekt definiert ist.
+
+Dann den Webserver und den PostgreSQL-Server starten. Die vorgeschlagene Konfiguration in `.env.example` entspricht der Standardkonfiguration des PostgreSQL-Servers sowie von Backend und Frontend.
 
 Es muss als Vorbereitung zwingend eine leere Datenbank in postgresql angelegt werden (Der Name wird in der env Konfiguration eingetragen)!!!
 
