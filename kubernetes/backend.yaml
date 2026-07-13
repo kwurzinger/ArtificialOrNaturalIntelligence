@@ -107,10 +107,8 @@ kind: Service
 metadata:
   name: backend
   namespace: artificial-or-natural-intelligence
-  annotations:
-    cloud.google.com/neg: '{"ingress": true}'
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: backend
   ports:
