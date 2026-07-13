@@ -42,12 +42,7 @@ export class AdminComponent implements OnInit {
     private http: HttpClient,
   ) {}
 
-  ngOnInit(): void {
-    if (this.isLoggedIn()) {
-      this.passwordUsername = this.currentUsername;
-      this.loadAdminData();
-    }
-  }
+  ngOnInit(): void {backToGame}
 
   isLoggedIn(): boolean {
     return this.adminService.isLoggedIn();
@@ -106,7 +101,9 @@ export class AdminComponent implements OnInit {
   }
 
   backToGame(): void {
-    window.location.assign('/');
+    const path = window.location.pathname;
+    const newPath = path.substring(0, path.lastIndexOf('/'));
+    window.location.assign(newPath || '/');
   }
 
   loadAdminData(): void {
