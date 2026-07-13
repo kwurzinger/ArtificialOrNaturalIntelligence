@@ -42,7 +42,12 @@ export class AdminComponent implements OnInit {
     private http: HttpClient,
   ) {}
 
-  ngOnInit(): void {backToGame}
+  ngOnInit(): void {
+    if (this.isLoggedIn()) {
+      this.passwordUsername = this.currentUsername;
+      this.loadAdminData();
+    }
+  }
 
   isLoggedIn(): boolean {
     return this.adminService.isLoggedIn();
