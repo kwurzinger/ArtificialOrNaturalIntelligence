@@ -6,10 +6,10 @@ metadata:
 data:
   PG_HOST: postgres
   PG_PORT: "5432"
-  API_PORT: "3000"
+  API_PORT: "80"
 
-  BASE_URL: "https://api.example.com"
-  ANGULAR_URL: "https://app.example.com"
+  BASE_URL: "http://34.49.229.24/api"
+  ANGULAR_URL: "http://34.49.229.24"
 
   DOCS_ENDPOINT: "/docs"
   CONTENT_ENDPOINT: "/content"
