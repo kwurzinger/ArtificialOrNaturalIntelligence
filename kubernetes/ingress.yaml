@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: artificial-or-natural-intelligence-ingress
+  namespace: artificial-or-natural-intelligence
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "artificial-or-natural-intelligence-ip"
+spec:
+  defaultBackend:
+    service:
+      name: frontend
+      port:
+        number: 80

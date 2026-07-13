@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: artificial-or-natural-intelligence
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/kwurzinger/artificialornaturalintelligence-backend:e8a7b4e08ec6e461842308cefe32214c6c51a82f
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: production
+
+            - name: PG_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: PG_HOST
+            - name: PG_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: PG_PORT
+            - name: API_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: API_PORT
+
+            - name: PG_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: PG_USERNAME
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: PG_PASSWORD
+            - name: PG_DBNAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: PG_DBNAME
+
+            - name: ADMIN_DEFAULT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: ADMIN_DEFAULT_USERNAME
+            - name: ADMIN_DEFAULT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: ADMIN_DEFAULT_PASSWORD
+
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: JWT_SECRET
+            - name: JWT_EXPIRES_IN
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: JWT_EXPIRES_IN
+
+            - name: ANGULAR_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: ANGULAR_URL
+            - name: DOCS_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DOCS_ENDPOINT
+            - name: CONTENT_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: CONTENT_ENDPOINT
+            - name: CONTENT_DIR
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: CONTENT_DIR
+            - name: BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: artificial-or-natural-intelligence
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000

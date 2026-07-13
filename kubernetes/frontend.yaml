@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: artificial-or-natural-intelligence
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/kwurzinger/artificialornaturalintelligence-frontend:e8a7b4e08ec6e461842308cefe32214c6c51a82f
+          ports:
+            - containerPort: 80
+          env:
+            - name: BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL
+            - name: API_PORT
+              value: "443"
+            - name: FRONTEND_LAST_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: FRONTEND_LAST_LEVEL
+            - name: FRONTEND_MAX_QUESTIONS_PER_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: FRONTEND_MAX_QUESTIONS_PER_LEVEL
+            - name: FRONTEND_HINTS_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: FRONTEND_HINTS_ENABLED
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: artificial-or-natural-intelligence
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

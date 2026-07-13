@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: artificial-or-natural-intelligence
+data:
+  PG_HOST: postgres
+  PG_PORT: "5432"
+  API_PORT: "3000"
+
+  BASE_URL: "https://api.example.com"
+  ANGULAR_URL: "https://app.example.com"
+
+  DOCS_ENDPOINT: "/docs"
+  CONTENT_ENDPOINT: "/content"
+  CONTENT_DIR: "/app/content"
+
+  FRONTEND_LAST_LEVEL: "5"
+  FRONTEND_MAX_QUESTIONS_PER_LEVEL: "2"
+  FRONTEND_HINTS_ENABLED: "true"
