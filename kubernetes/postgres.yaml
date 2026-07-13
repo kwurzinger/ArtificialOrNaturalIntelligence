@@ -48,9 +48,6 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: PG_DBNAME
-          volumeMounts:
-            - name: postgres-data
-              mountPath: /var/lib/postgresql/data
           readinessProbe:
             exec:
               command:

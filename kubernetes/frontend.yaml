@@ -25,7 +25,10 @@ spec:
                   name: app-config
                   key: BASE_URL
             - name: API_PORT
-              value: "443"
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: API_PORT
             - name: FRONTEND_LAST_LEVEL
               valueFrom:
                 configMapKeyRef:
