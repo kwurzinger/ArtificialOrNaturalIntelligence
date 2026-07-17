@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/kwurzinger/artificialornaturalintelligence-backend:ff751a421a37899c87f1b03eab641cae3cd6f61e
+          image: ghcr.io/kwurzinger/artificialornaturalintelligence-backend:c515fbd3a90a08ba1a29f65ace006cf6ff696329
           ports:
             - containerPort: 3000
           env:

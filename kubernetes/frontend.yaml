@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/kwurzinger/artificialornaturalintelligence-frontend:ff751a421a37899c87f1b03eab641cae3cd6f61e
+          image: ghcr.io/kwurzinger/artificialornaturalintelligence-frontend:c515fbd3a90a08ba1a29f65ace006cf6ff696329
           ports:
             - containerPort: 80
           env:
