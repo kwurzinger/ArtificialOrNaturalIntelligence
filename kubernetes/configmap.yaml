@@ -9,7 +9,7 @@ data:
   API_PORT: "80"
 
   BASE_URL: "http://136.65.128.89"
-  ANGULAR_URL: "http://34.49.229.24"
+  ANGULAR_URL: "*"
 
   DOCS_ENDPOINT: "/docs"
   CONTENT_ENDPOINT: "/content"
