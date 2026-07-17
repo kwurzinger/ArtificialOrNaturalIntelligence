@@ -109,9 +109,9 @@ metadata:
   namespace: artificial-or-natural-intelligence
   annotations:
     cloud.google.com/load-balancer-type: "External"
-    networking.gke.io/load-balancer-ip-addresses: projects/project-630566f1-fd55-4ba6-b5e/regions/us-central1/addresses/artificial-or-natural-intelligence-backend-ip
 spec:
   type: LoadBalancer
+  loadBalancerIP: 136.116.196.246
   selector:
     app: backend
   ports:
