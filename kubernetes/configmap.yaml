@@ -12,7 +12,7 @@ data:
   ANGULAR_URL: "http://34.49.229.24"
 
   DOCS_ENDPOINT: "/docs"
-  CONTENT_ENDPOINT: "/content"
+  CONTENT_ENDPOINT: "/static"
   CONTENT_DIR: "/app/content"
 
   FRONTEND_LAST_LEVEL: "5"
