@@ -107,6 +107,9 @@ kind: Service
 metadata:
   name: backend
   namespace: artificial-or-natural-intelligence
+  annotations:
+    cloud.google.com/load-balancer-type: "External"
+    networking.gke.io/load-balancer-ip-addresses: artificial-or-natural-intelligence-backend-ip
 spec:
   type: LoadBalancer
   selector:
